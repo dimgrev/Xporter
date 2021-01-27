@@ -7,6 +7,8 @@ namespace XporterConsole
         static void Main(string[] args)
         {
             Console.WriteLine("Hello Xporter World!");
+
+            Xporter.Core.Xporter.CreateOrLoadFile("Test");
         }
     }
 }
