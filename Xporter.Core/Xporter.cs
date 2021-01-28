@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Reflection;
 using System.Text;
 
@@ -13,50 +14,95 @@ namespace Xporter.Core
     public static class Xporter
     {
         /// <summary>
-        /// Creates a new SpreadSheet file
+        /// Load an existing xlsx Filestream
         /// </summary>
-        /// <returns></returns>
-        public static FileInfo Create()
+        /// <returns>ExcelPackage</returns>
+        public static ExcelPackage Load(Stream stream)
         {
+            var package = LoadPackage(stream);
 
-
-            throw new NotImplementedException();
+            return package;
         }
 
-        public static FileInfo CreateOrLoadFile( string fileName)
+        /// <summary>
+        /// Creates or Loads an xlsx file
+        /// </summary>
+        /// <param name="path">Export or Load path</param>
+        /// <param name="fileName">File name</param>
+        /// <param name="sheetName">SpreadSheet name</param>
+        /// <returns>ExcelPackage</returns>
+        public static ExcelPackage CreateOrLoad(string path, string fileName, string sheetName)
         {
             ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
 
             try
             {
-                string exportPath = Path.Combine((new System.Uri(Assembly.GetExecutingAssembly().CodeBase))
-                    .AbsolutePath.Split(new string[] { "/bin" }
-                    , StringSplitOptions.None)[0]) 
-                    + $"/Exports";
+                string export = Path.Combine(path);
 
 
-                if (!Directory.Exists(exportPath))
+                if (!File.Exists(path))
                 {
-                    Directory.CreateDirectory(exportPath);
+                    if (!Directory.Exists(export))
+                    {
+                        Directory.CreateDirectory(export);
+                    }
+
+                    var exportFilename = fileName + ".xlsx";
+
+                    //var file = new FileInfo(Path.Combine(export, exportFilename));
+                    var file = new FileStream(export +"\\"+ exportFilename, FileMode.OpenOrCreate);
+
+
+                    var package = new ExcelPackage(file);
+
+                    var activeSheet = package.Workbook.Worksheets.Add(sheetName);
+
+                    package.Save();
+
+                    return package;
+                }
+                else
+                {
+                    var package = new ExcelPackage(new FileStream(path, FileMode.OpenOrCreate));
+                    
+                    return package;
                 }
 
-                var exportFilename = fileName + ".xlsx";
-                var file = new FileInfo(Path.Combine(exportPath, exportFilename));
-
-                //CreateExcelSpreadSheet
-                //CreateXlsxSpreadSheet(file, sheetName, startingIndex, obj);
-                var package = new ExcelPackage(file);
-
-                var activeSheet = package.Workbook.Worksheets.Add("TestSheetName");
-
-                package.Save();
-
-                return file;
             }
             catch (Exception ex)
             {
                 throw ex;
             }
+        }
+
+        /// <summary>
+        /// Loads package from stream
+        /// </summary>
+        /// <param name="stream"></param>
+        /// <returns>ExcelPackage</returns>
+        private static ExcelPackage LoadPackage(Stream stream)
+        {
+            ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
+
+            var package = new ExcelPackage(stream);
+
+            //var activeSheet = package.Workbook.Worksheets.First();
+
+            return package;
+        }
+
+        /// <summary>
+        /// Loads Sheet from package
+        /// </summary>
+        /// <param name="pack"></param>
+        /// <returns>ExcelWorksheet</returns>
+        private static ExcelWorksheet LoadSheet(ExcelPackage pack)
+        {
+            ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
+
+            var activeSheet = pack.Workbook.Worksheets.First();
+
+            return activeSheet;
         }
     }
 }

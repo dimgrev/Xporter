@@ -1,4 +1,7 @@
-﻿using System;
+﻿using OfficeOpenXml;
+using System;
+using System.IO;
+using Xporter.Core.Extensions;
 
 namespace XporterConsole
 {
@@ -8,7 +11,10 @@ namespace XporterConsole
         {
             Console.WriteLine("Hello Xporter World!");
 
-            Xporter.Core.Xporter.CreateOrLoadFile("Test");
+            Xporter.Core.Xporter.Load(new FileStream("C:\\Users\\dgrevenos\\source\\repos\\Xporter\\XporterConsole\\Exports\\Test.xlsx", FileMode.OpenOrCreate));
+            var x = Xporter.Core.Xporter.CreateOrLoad("C:\\Users\\dgrevenos\\source\\repos\\Xporter\\XporterConsole\\Exports\\Test.xlsx", "TestFileName01", "TestSheetName01");
+
+
         }
     }
 }
