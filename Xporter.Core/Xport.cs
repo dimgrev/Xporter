@@ -14,26 +14,24 @@ namespace Xporter.Core
     public static class Xport
     {
         /// <summary>
-        /// Load an existing xlsx Filestream
+        /// Load an existing xlsx File
         /// </summary>
         /// <returns>ExcelPackage</returns>
-        //public static ExcelPackage Load(Stream stream)
-        //{
-        //    var package = LoadPackage(stream);
+        public static ExcelPackage Load(string path)
+        {
+            var package = new ExcelPackage(new FileInfo(path));
 
-        //    stream.Close();
-
-        //    return package;
-        //}
+            return package;
+        }
 
         /// <summary>
         /// Creates or Loads an xlsx file
         /// </summary>
         /// <param name="path">Export or Load path</param>
-        /// <param name="fileName">File name</param>
-        /// <param name="sheetName">SpreadSheet name</param>
+        /// <param name="fileName">(Nullable) File name</param>
+        /// <param name="sheetName">(Nullable) SpreadSheet name</param>
         /// <returns>ExcelPackage</returns>
-        public static ExcelPackage CreateOrLoad(string path, string fileName, string sheetName)
+        public static ExcelPackage Create(string path, string fileName, string sheetName)
         {
             ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
 
@@ -69,7 +67,9 @@ namespace Xporter.Core
                 else
                 {
                     var package = new ExcelPackage(new FileInfo(path));
-                    
+
+                    package.Save();
+
                     return package;
                 }
 

@@ -30,8 +30,6 @@ namespace XporterConsole
             std.LastName.Add("GrevenosA" + 1);
             std.LastName.Add("GrevenosB" + 1);
             std.LastName.Add("GrevenosC" + 1);
-            //std.LastName.Add("GrevenosD"+1);
-            //std.LastName.Add("GrevenosE"+1);
 
             stds.Add(std);
 
@@ -50,19 +48,34 @@ namespace XporterConsole
 
             stds.Add(std2);
 
+
+
+            //Properties...
+
             var cp = new CellProperties();
-            cp.Add("A2", "Stats");
-            cp.Add("B4", "TypeOfProduct");
-            cp.Add("B6", "Images");
+            cp.Add("A2", "Stats02");
+            cp.Add("B4", "TypeOfProduct02");
+            cp.Add("B6", "Images02");
 
-            //Xport.Load(new FileStream("C:\\Users\\dgrevenos\\source\\repos\\Xporter\\XporterConsole\\Exports\\Test.xlsx", FileMode.Open))
-            //        .LoadTempl(new FileStream("C:\\Users\\dgrevenos\\source\\repos\\Xporter\\XporterConsole\\Templates\\Templ.xlsx", FileMode.Open))
-            //        .InsertData(stds, 8);
+            var exportPath = "C:\\Users\\dgrevenos\\source\\repos\\Xporter\\XporterConsole\\Exports";
 
-            var x = Xport.CreateOrLoad("C:\\Users\\dgrevenos\\source\\repos\\Xporter\\XporterConsole\\Exports", "TestFileName01", "TestSheetName01")
-                    .LoadTempl(new FileStream("C:\\Users\\dgrevenos\\source\\repos\\Xporter\\XporterConsole\\Templates\\Templ.xlsx", FileMode.Open))
-                    .InsertData(stds, 8)
-                    .WriteToCells(cp);
+            var filePath = "C:\\Users\\dgrevenos\\source\\repos\\Xporter\\XporterConsole\\Exports\\Test.xlsx";
+
+            var templFullPath = "C:\\Users\\dgrevenos\\source\\repos\\Xporter\\XporterConsole\\Templates\\Templ.xlsx";
+
+
+
+            //USAGE EXAMPLE...
+
+            Xport.Load(filePath)
+                 .Clear()
+                 .LoadTempl(new FileStream(templFullPath, FileMode.Open))
+                 .InsertData(stds, 8);
+
+            Xport.Create(exportPath, "TestFileName01.xlsx", "TestSheetName01")
+                 .LoadTempl(new FileStream(templFullPath, FileMode.Open))
+                 .InsertData(stds, 8)
+                 .WriteToCells(cp);
         }
     }
 }
