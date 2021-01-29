@@ -11,18 +11,20 @@ namespace Xporter.Core
     /// <summary>
     /// This class helps you export any kind of data to an xlsx file
     /// </summary>
-    public static class Xporter
+    public static class Xport
     {
         /// <summary>
         /// Load an existing xlsx Filestream
         /// </summary>
         /// <returns>ExcelPackage</returns>
-        public static ExcelPackage Load(Stream stream)
-        {
-            var package = LoadPackage(stream);
+        //public static ExcelPackage Load(Stream stream)
+        //{
+        //    var package = LoadPackage(stream);
 
-            return package;
-        }
+        //    stream.Close();
+
+        //    return package;
+        //}
 
         /// <summary>
         /// Creates or Loads an xlsx file
@@ -50,12 +52,15 @@ namespace Xporter.Core
                     var exportFilename = fileName + ".xlsx";
 
                     //var file = new FileInfo(Path.Combine(export, exportFilename));
-                    var file = new FileStream(export +"\\"+ exportFilename, FileMode.OpenOrCreate);
-
+                    var file = new FileInfo(export +"\\"+ exportFilename);
+                    
 
                     var package = new ExcelPackage(file);
 
-                    var activeSheet = package.Workbook.Worksheets.Add(sheetName);
+                    if (!package.Workbook.Worksheets.Select(s=>s.Name = sheetName).Any())
+                    {
+                        var activeSheet = package.Workbook.Worksheets.Add(sheetName); 
+                    }
 
                     package.Save();
 
@@ -63,7 +68,7 @@ namespace Xporter.Core
                 }
                 else
                 {
-                    var package = new ExcelPackage(new FileStream(path, FileMode.OpenOrCreate));
+                    var package = new ExcelPackage(new FileInfo(path));
                     
                     return package;
                 }
@@ -80,29 +85,13 @@ namespace Xporter.Core
         /// </summary>
         /// <param name="stream"></param>
         /// <returns>ExcelPackage</returns>
-        private static ExcelPackage LoadPackage(Stream stream)
-        {
-            ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
+        //private static ExcelPackage LoadPackage(Stream stream)
+        //{
+        //    ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
 
-            var package = new ExcelPackage(stream);
+        //    var package = new ExcelPackage(stream);
 
-            //var activeSheet = package.Workbook.Worksheets.First();
-
-            return package;
-        }
-
-        /// <summary>
-        /// Loads Sheet from package
-        /// </summary>
-        /// <param name="pack"></param>
-        /// <returns>ExcelWorksheet</returns>
-        private static ExcelWorksheet LoadSheet(ExcelPackage pack)
-        {
-            ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
-
-            var activeSheet = pack.Workbook.Worksheets.First();
-
-            return activeSheet;
-        }
+        //    return package;
+        //}
     }
 }
