@@ -165,6 +165,23 @@ namespace Xporter.Core.Extensions
         }
 
         /// <summary>
+        /// Clears all data of the xlsx file
+        /// </summary>
+        /// <param name="package"></param>
+        /// <returns>ExcelPackage</returns>
+        public static ExcelPackage Clear(this ExcelPackage package)
+        {
+            var sheet = LoadSheet(package);
+
+            sheet.Cells.Clear();
+
+            package.Save();
+
+            return package;
+        }
+
+
+        /// <summary>
         /// Loads Sheet from package
         /// </summary>
         /// <param name="pack"></param>
