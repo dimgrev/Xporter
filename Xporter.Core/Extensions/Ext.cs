@@ -57,8 +57,9 @@ namespace Xporter.Core.Extensions
         /// <param name="pack">This xlsx package as extension method</param>
         /// <param name="objs">The list of your Data that you want to insert</param>
         /// <param name="startingRow">In which row you want the program to start inserting data</param>
+        /// <param name="startingCol">In which column you want the program to start inserting data</param>
         /// <returns>ExcelPackage</returns>
-        public static ExcelPackage InsertData(this ExcelPackage pack, List<object> objs, int startingRow)
+        public static ExcelPackage InsertData(this ExcelPackage pack, List<object> objs, int startingRow, int startingCol)
         {
             var sheet = LoadSheet(pack);
 
@@ -72,10 +73,99 @@ namespace Xporter.Core.Extensions
             {
                 //var newI = startingIndex + i;
 
-                sheet.Cells[ExcelCellAddress.GetColumnLetter(i + 1) + startingRow.ToString()].Value = props[i].Name;
+                sheet.Cells[ExcelCellAddress.GetColumnLetter(i + startingCol) + startingRow.ToString()].Value = props[i].Name;
             }
 
             var row = startingRow + 2;
+            var rowf = 0;
+
+            foreach (var item in objs)
+            {
+                var rowb = row;
+                for (int i = 0; i < props.Length; i++)
+                {
+
+                    var prop = item.GetType().GetProperty(props[i].Name).GetValue(item);
+
+
+                    //Alternative....
+                    //List<Object> collection = new List<Object>((IEnumerable<Object>)prop);
+                    //.....Works.....
+
+                    if (prop is IEnumerable<Object>)
+                    {
+                        List<object> list = new List<object>();
+                        var enumerator = ((IEnumerable<Object>)prop).GetEnumerator();
+                        while (enumerator.MoveNext())
+                        {
+                            list.Add(enumerator.Current);
+                        }
+                        foreach (var ad in list)
+                        {
+                            //do what you want here
+                            sheet.Cells[ExcelCellAddress.GetColumnLetter(i + startingCol) + rowb].Value = ad.ToString();
+
+
+                            sheet.Cells[ExcelCellAddress.GetColumnLetter(i + startingCol) + rowb].
+                                Style.HorizontalAlignment = OfficeOpenXml.Style.ExcelHorizontalAlignment.Center;
+
+                            sheet.Cells[ExcelCellAddress.GetColumnLetter(i + startingCol) + rowb].
+                                Style.VerticalAlignment = OfficeOpenXml.Style.ExcelVerticalAlignment.Center;
+
+                            rowb++;
+                            rowf = rowf < rowb ? rowb : rowf;
+                        }
+
+                    }
+                    else
+                    {
+                        sheet.Cells[ExcelCellAddress.GetColumnLetter(i + startingCol) + row].Value = item.GetType()
+                            .GetProperty(props[i].Name)
+                            .GetValue(item, null).ToString();
+
+                        sheet.Cells[ExcelCellAddress.GetColumnLetter(i + startingCol) + row].
+                            Style.HorizontalAlignment = OfficeOpenXml.Style.ExcelHorizontalAlignment.Center;
+
+                        sheet.Cells[ExcelCellAddress.GetColumnLetter(i + startingCol) + row].
+                            Style.VerticalAlignment = OfficeOpenXml.Style.ExcelVerticalAlignment.Center;
+                    }
+                    rowb = row;
+                    //foreach (var ad in collection)
+                    //{
+                    //    //do what you want here
+                    //}
+
+                }
+                row = rowf + 1;
+            }
+            var allCells = sheet.Cells[1, 1, sheet.Dimension.End.Row, sheet.Dimension.End.Column];
+
+            var cellFont = allCells.Style.Font;
+            cellFont.Name = "Bahnschrift Light SemiCondensed";
+
+            pack.Save();
+
+            return pack;
+        }
+        //Under load
+        public static ExcelPackage InsertData(this ExcelPackage pack, List<object> objs)
+        {
+            var sheet = LoadSheet(pack);
+
+            //Takes the type of the first object
+            var firstObjType = objs.First().GetType();
+
+            //Get all Properties from that type class
+            var props = firstObjType.GetProperties();
+
+            for (int i = 0; i < props.Length; i++)
+            {
+                //var newI = startingIndex + i;
+
+                sheet.Cells[ExcelCellAddress.GetColumnLetter(i + 1) + "1"].Value = props[i].Name;
+            }
+
+            var row = 3;
             var rowf = 0;
 
             foreach (var item in objs)

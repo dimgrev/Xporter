@@ -69,12 +69,14 @@ namespace XporterConsole
 
             Xport.Load(filePath)
                  .Clear()
-                 .LoadTempl(new FileStream(templFullPath, FileMode.Open))
-                 .InsertData(stds, 8);
+                 //.LoadTempl(new FileStream(templFullPath, FileMode.Open))
+                 .InsertData(stds);
+            
+            //USAGE EXAMPLE2...
 
             Xport.Create(exportPath, "TestFileName01.xlsx", "TestSheetName01")
                  .LoadTempl(new FileStream(templFullPath, FileMode.Open))
-                 .InsertData(stds, 8)
+                 .InsertData(stds, 8, 2)
                  .WriteToCells(cp);
         }
     }
