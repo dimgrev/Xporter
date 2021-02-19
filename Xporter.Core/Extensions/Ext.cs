@@ -33,7 +33,7 @@ namespace Xporter.Core.Extensions
                 package.Workbook.Worksheets.Add(activeSheet.Name, templSheet);
                 package.Workbook.Worksheets.Delete(activeSheet.Name + "D");
 
-                package.Save();
+                //package.Save();
 
                 stream.Close();
 
@@ -43,7 +43,7 @@ namespace Xporter.Core.Extensions
             {
                 package.Workbook.Worksheets.Add(activeSheet.Name, templSheet);
 
-                package.Save();
+                //package.Save();
 
                 stream.Close();
 
@@ -138,12 +138,8 @@ namespace Xporter.Core.Extensions
                 }
                 row = rowf + 1;
             }
-            var allCells = sheet.Cells[1, 1, sheet.Dimension.End.Row, sheet.Dimension.End.Column];
 
-            var cellFont = allCells.Style.Font;
-            cellFont.Name = "Bahnschrift Light SemiCondensed";
-
-            pack.Save();
+            //pack.Save();
 
             return pack;
         }
@@ -249,7 +245,7 @@ namespace Xporter.Core.Extensions
                 sheet.Cells[item.Key].Value = item.Value;
             }
 
-            pack.Save();
+            //pack.Save();
 
             return pack;
         }
@@ -280,7 +276,12 @@ namespace Xporter.Core.Extensions
         {
             ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
 
-            var activeSheet = pack.Workbook.Worksheets.First();
+            var activeSheet = pack.Workbook.Worksheets.FirstOrDefault();
+
+            if (activeSheet is null)
+            {
+                activeSheet = pack.Workbook.Worksheets.Add("Report");
+            }
 
             return activeSheet;
         }

@@ -57,27 +57,39 @@ namespace XporterConsole
             cp.Add("B4", "TypeOfProduct02");
             cp.Add("B6", "Images02");
 
-            var exportPath = "C:\\Users\\dgrevenos\\source\\repos\\Xporter\\XporterConsole\\Exports";
+            var exportPath = "C:\\Users\\dgrevenos\\source\\repos\\Xporter\\XporterConsole\\Exports\\TestFileName2.xls";
 
             var filePath = "C:\\Users\\dgrevenos\\source\\repos\\Xporter\\XporterConsole\\Exports\\Test.xlsx";
 
-            var templFullPath = "C:\\Users\\dgrevenos\\source\\repos\\Xporter\\XporterConsole\\Templates\\Templ.xlsx";
+            var templFullPath = "C:\\Users\\dgrevenos\\source\\repos\\Xporter\\XporterConsole\\Templates\\templ.xlsx";
 
 
 
             //USAGE EXAMPLE...
 
-            Xport.Load(filePath)
+            Xport.LoadFromFileInfo(filePath)
                  .Clear()
                  //.LoadTempl(new FileStream(templFullPath, FileMode.Open))
-                 .InsertData(stds);
-            
-            //USAGE EXAMPLE2...
+                 .InsertData(stds)
+                 .Save();
 
-            Xport.Create(exportPath, "TestFileName01.xlsx", "TestSheetName01")
-                 .LoadTempl(new FileStream(templFullPath, FileMode.Open))
+            //USAGE EXAMPLE2...
+            var fileStream = new FileStream(exportPath, FileMode.OpenOrCreate);
+
+            Xport.LoadFromStream(fileStream, "TestSheetName")
                  .InsertData(stds, 8, 2)
-                 .WriteToCells(cp);
+                 .WriteToCells(cp)
+                 .Save();
+
+            Xport.CreateNewPackage().InsertData(stds, 8, 2).SaveAs(new FileInfo(exportPath));
+
+            //var fileStream = new FileStream(exportPath, FileMode.OpenOrCreate);
+
+            //Xport.CreateOrLoad(fileStream, "TestSheetName")
+            //     .LoadTempl(new FileStream(templFullPath, FileMode.Open))
+            //     .InsertData(stds, 8, 2)
+            //     .WriteToCells(cp);
+
         }
     }
 }
