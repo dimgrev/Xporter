@@ -6,7 +6,7 @@ using System.Linq;
 using System.Reflection;
 using System.Text;
 
-namespace Xporter.Core
+namespace Xporter
 {
     /// <summary>
     /// This class helps you export any kind of data to an xlsx file

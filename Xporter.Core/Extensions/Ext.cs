@@ -5,7 +5,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 
-namespace Xporter.Core.Extensions
+namespace Xporter
 {
     public static class Ext
     {
@@ -81,6 +81,17 @@ namespace Xporter.Core.Extensions
 
             foreach (var item in objs)
             {
+                if (rowf > 0)
+                {
+                    for (int i = 0; i < props.Length; i++)
+                    {
+                        //var newI = startingIndex + i;
+
+                        sheet.Cells[ExcelCellAddress.GetColumnLetter(i + startingCol) + (rowf + 1).ToString()].Value = props[i].Name;
+                    }
+                    row++;
+                }
+
                 var rowb = row;
                 for (int i = 0; i < props.Length; i++)
                 {
@@ -136,13 +147,14 @@ namespace Xporter.Core.Extensions
                     //}
 
                 }
-                row = rowf + 1;
+                row = rowf + 2;
             }
 
             //pack.Save();
 
             return pack;
         }
+
         //Under load
         public static ExcelPackage InsertData(this ExcelPackage pack, List<object> objs)
         {
