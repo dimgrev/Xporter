@@ -1,0 +1,21 @@
+name: CI pipeline
+
+on:
+  pull_request:
+    branches: [ dev ]
+env:
+    Configuration: Release
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - name: CheckingOut
+      uses: actions/checkout@v2
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v1
+      with:
+        dotnet-version: 3.1.x
+    - name: Restore dependencies
+      run: dotnet restore
+    - name: Build
+      run: dotnet build --no-restore --configuration ${{env.Configuration}}
