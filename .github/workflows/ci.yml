@@ -4,7 +4,7 @@ on:
   pull_request:
     branches: [ dev ]
 env:
-    CONFIGURATION: Release
+    Configuration: Release
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -18,4 +18,4 @@ jobs:
     - name: Restore dependencies
       run: dotnet restore
     - name: Build
-      run: dotnet build --no-restore --configuration echo "$env.CONFIGURATION"
+      run: dotnet build --no-restore --configuration ${{env.Configuration}}
