@@ -6,7 +6,7 @@ using System.Linq;
 using System.Reflection;
 using System.Text;
 
-namespace Xporter.Core
+namespace Xporter
 {
     /// <summary>
     /// This class helps you export any kind of data to an xlsx file
@@ -17,8 +17,10 @@ namespace Xporter.Core
         /// Load an existing xlsx File
         /// </summary>
         /// <returns>ExcelPackage</returns>
-        public static ExcelPackage Load(string path)
+        public static ExcelPackage LoadFromFileInfo(string path)
         {
+            ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
+
             var package = new ExcelPackage(new FileInfo(path));
 
             return package;
@@ -31,67 +33,35 @@ namespace Xporter.Core
         /// <param name="fileName">(Nullable) File name</param>
         /// <param name="sheetName">(Nullable) SpreadSheet name</param>
         /// <returns>ExcelPackage</returns>
-        public static ExcelPackage Create(string path, string fileName, string sheetName)
+        public static ExcelPackage LoadFromStream(FileStream fileStream, string sheetName)
         {
             ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
 
             try
             {
-                string export = Path.Combine(path);
-
-
-                if (!File.Exists(path))
-                {
-                    if (!Directory.Exists(export))
-                    {
-                        Directory.CreateDirectory(export);
-                    }
-
-                    var exportFilename = fileName + ".xlsx";
-
-                    //var file = new FileInfo(Path.Combine(export, exportFilename));
-                    var file = new FileInfo(export +"\\"+ exportFilename);
-                    
-
-                    var package = new ExcelPackage(file);
+                var package = new ExcelPackage(fileStream);
 
                     if (!package.Workbook.Worksheets.Select(s=>s.Name = sheetName).Any())
                     {
                         var activeSheet = package.Workbook.Worksheets.Add(sheetName); 
                     }
-
-                    package.Save();
-
                     return package;
-                }
-                else
-                {
-                    var package = new ExcelPackage(new FileInfo(path));
-
-                    package.Save();
-
-                    return package;
-                }
-
             }
             catch (Exception ex)
             {
                 throw ex;
             }
         }
-
         /// <summary>
-        /// Loads package from stream
+        /// Creates a new XlsxPackage <br></br>
+        ///  - Do not forget to use SaveAs() method
         /// </summary>
-        /// <param name="stream"></param>
-        /// <returns>ExcelPackage</returns>
-        //private static ExcelPackage LoadPackage(Stream stream)
-        //{
-        //    ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
+        /// <returns></returns>
+        public static ExcelPackage CreateNewPackage()
+        {
+            ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
 
-        //    var package = new ExcelPackage(stream);
-
-        //    return package;
-        //}
+            return new ExcelPackage();
+        }
     }
 }

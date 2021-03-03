@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace Xporter.Core
+namespace Xporter
 {
     public sealed class CellProperties : Dictionary<string, string>
     {
