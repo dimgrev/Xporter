@@ -2,7 +2,7 @@ name: CI pipeline
 
 on:
   pull_request:
-    branches: [ development ]
+    branches: [ dev ]
 env:
     CONFIGURATION: Release
 jobs:
