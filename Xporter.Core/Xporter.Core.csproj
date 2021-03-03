@@ -7,12 +7,14 @@
     <Company />
     <PackageTags>Xporter, export, spreadsheet, xlsx, excel, exporting</PackageTags>
     <Description>"Xporter" allows users to export Spreadsheet files easily from either any object type or list of properties as a source, using pre-existing .xlsx files as Templates.</Description>
-    <PackageProjectUrl>https://github.com/dimgrev/Xporter</PackageProjectUrl>
+    <PackageProjectUrl></PackageProjectUrl>
     <PackageIcon>XporterIcon.png</PackageIcon>
-    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <Product>Xporter Library</Product>
     <Copyright>2021</Copyright>
+    <RepositoryUrl>https://github.com/dimgrev/Xporter</RepositoryUrl>
+    <PackageId>Xporter</PackageId>
   </PropertyGroup>
 
   <ItemGroup>
