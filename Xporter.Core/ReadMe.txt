@@ -1,10 +1,10 @@
 ﻿============================
 # This is Xporter's ReadMe #
 ============================
-   _  _  ____   __  ____  ____  ____  ____ 
-  ( \/ )(  _ \ /  \(  _ \(_  _)(  __)(  _ \
-   )  (  ) __/(  O ))   /  )(   ) _)  )   /
-  (_/\_)(__)   \__/(__\_) (__) (____)(__\_)
+__  __ __     ___   ___  _____  ___  ___   
+\ \/ /| _ \  / _ \ | _ \|_   _|| __|| _ \  
+ >  < |  _/ | (_) ||   /  | |  | _| |   /  
+/_/\_\|_|    \___/ |_|_\  |_|  |___||_|_\
 
 "Xporter" allows users to export Spreadsheet files easily from either any object type or 
 list of properties as a source, using pre-existing .xlsx files as Templates.
