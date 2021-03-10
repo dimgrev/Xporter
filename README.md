@@ -74,8 +74,8 @@ Then you can use the library extensions methods listed below as you like:
 	* .Clear()		+2 overloads	--> to clear the data of a worksheet or clear all sheets of a file
 
 ## ToDo
--- Add method Insert-inTo-Cells based on the content that cells hold 
-	* eg. insertToCells(cell's value: string "<Insert Here>", value to insert: string "Put This into that cell");
+-- Add method Insert-inTo-Cells based on the content that cells hold <br>
+	* eg. insertToCells(cell's value: string "&lt;Insert Here&gt;", value to insert: string "Put This into that cell");
 
 -- Maybe - Change Xlsx File's style
 
