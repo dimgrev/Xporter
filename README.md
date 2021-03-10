@@ -68,10 +68,10 @@ and on that class call one of three methods:
 
 Then you can use the library extensions methods listed below as you like:
 
-	* .LoadTempl()						--> to load a template from another xlsx file to the current one
+	* .LoadTempl()				--> to load a template from another xlsx file to the current one
 	* .InsertData()		+2 overloads	--> to insert any kind of data from a model all other source
-	* .WriteToCells()					--> to write something in specified cells
-	* .Clear()			+2 overloads	--> to clear the data of a worksheet or clear all sheets of a file
+	* .WriteToCells()			--> to write something in specified cells
+	* .Clear()		+2 overloads	--> to clear the data of a worksheet or clear all sheets of a file
 
 ## ToDo
 -- Maybe - Change Xlsx File's style
@@ -80,7 +80,7 @@ Then you can use the library extensions methods listed below as you like:
 
 The MIT License (MIT)
 
-Copyright ©2021 Dimitris Grevenos
+Copyright Â©2021 Dimitris Grevenos
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
