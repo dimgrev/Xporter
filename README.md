@@ -75,7 +75,7 @@ Then you can use the library extensions methods listed below as you like:
 
 ## ToDo
 - Add method Insert-inTo-Cells based on the content that cells hold <br>
-* eg. insertToCells(cell's value: string "&lt; Insert Here &gt; ", value to insert: string "Put This into that cell");
+** eg. insertToCells(cell's value: string "&lt; Insert Here &gt; ", value to insert: string "Put This into that cell");
 
 - Maybe - Change Xlsx File's style
 
