@@ -3,7 +3,6 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Text;
 
 namespace Xporter
 {
@@ -17,8 +16,6 @@ namespace Xporter
         /// <returns>ExcelPackage</returns>
         public static ExcelPackage LoadTempl(this ExcelPackage package, Stream stream)
         {
-            ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
-
             var templPackage = new ExcelPackage(stream);
 
             var templSheet = LoadSheet(templPackage);
@@ -33,8 +30,6 @@ namespace Xporter
                 package.Workbook.Worksheets.Add(activeSheet.Name, templSheet);
                 package.Workbook.Worksheets.Delete(activeSheet.Name + "D");
 
-                //package.Save();
-
                 stream.Close();
 
                 return package;
@@ -42,8 +37,6 @@ namespace Xporter
             else
             {
                 package.Workbook.Worksheets.Add(activeSheet.Name, templSheet);
-
-                //package.Save();
 
                 stream.Close();
 
@@ -63,45 +56,32 @@ namespace Xporter
         {
             var sheet = LoadSheet(pack);
 
-            //Takes the type of the first object
-            var firstObjType = objs.First().GetType();
+            var rowFlag = 0;
+            var row = startingRow + 1;
 
-            //Get all Properties from that type class
-            var props = firstObjType.GetProperties();
-
-            for (int i = 0; i < props.Length; i++)
+            for (int j = 0; j < objs.Count; j++)
             {
-                //var newI = startingIndex + i;
+                var item = objs[j];
 
-                sheet.Cells[ExcelCellAddress.GetColumnLetter(i + startingCol) + startingRow.ToString()].Value = props[i].Name;
-            }
+                //Takes the type of the first object
+                var firstObjType = item.GetType();
 
-            var row = startingRow + 2;
-            var rowf = 0;
+                //Get all Properties from that type class
+                var props = firstObjType.GetProperties();
 
-            foreach (var item in objs)
-            {
-                if (rowf > 0)
-                {
-                    for (int i = 0; i < props.Length; i++)
-                    {
-                        //var newI = startingIndex + i;
-
-                        sheet.Cells[ExcelCellAddress.GetColumnLetter(i + startingCol) + (rowf + 1).ToString()].Value = props[i].Name;
-                    }
-                    row++;
-                }
-
-                var rowb = row;
                 for (int i = 0; i < props.Length; i++)
                 {
+                    //var newI = startingIndex + i;
 
+                    sheet.Cells[ExcelCellAddress.GetColumnLetter(i + startingCol) + row.ToString()].Value = props[i].Name;
+                }
+                row += 2;
+
+                var rowb = row;
+
+                for (int i = 0; i < props.Length; i++)
+                {
                     var prop = item.GetType().GetProperty(props[i].Name).GetValue(item);
-
-
-                    //Alternative....
-                    //List<Object> collection = new List<Object>((IEnumerable<Object>)prop);
-                    //.....Works.....
 
                     if (prop is IEnumerable<Object>)
                     {
@@ -124,7 +104,7 @@ namespace Xporter
                                 Style.VerticalAlignment = OfficeOpenXml.Style.ExcelVerticalAlignment.Center;
 
                             rowb++;
-                            rowf = rowf < rowb ? rowb : rowf;
+                            rowFlag = rowFlag < rowb ? rowb : rowFlag;
                         }
 
                     }
@@ -139,19 +119,13 @@ namespace Xporter
 
                         sheet.Cells[ExcelCellAddress.GetColumnLetter(i + startingCol) + row].
                             Style.VerticalAlignment = OfficeOpenXml.Style.ExcelVerticalAlignment.Center;
+
+                        rowFlag = rowFlag < row ? row : rowFlag;
                     }
                     rowb = row;
-                    //foreach (var ad in collection)
-                    //{
-                    //    //do what you want here
-                    //}
-
                 }
-                row = rowf + 2;
+                row = rowFlag + 2;
             }
-
-            //pack.Save();
-
             return pack;
         }
 
@@ -160,34 +134,32 @@ namespace Xporter
         {
             var sheet = LoadSheet(pack);
 
-            //Takes the type of the first object
-            var firstObjType = objs.First().GetType();
+            var rowFlag = 0;
+            var row = 1;
 
-            //Get all Properties from that type class
-            var props = firstObjType.GetProperties();
-
-            for (int i = 0; i < props.Length; i++)
+            for (int j = 0; j < objs.Count; j++)
             {
-                //var newI = startingIndex + i;
+                var item = objs[j];
 
-                sheet.Cells[ExcelCellAddress.GetColumnLetter(i + 1) + "1"].Value = props[i].Name;
-            }
+                //Takes the type of the first object
+                var firstObjType = item.GetType();
 
-            var row = 3;
-            var rowf = 0;
+                //Get all Properties from that type class
+                var props = firstObjType.GetProperties();
 
-            foreach (var item in objs)
-            {
-                var rowb = row;
                 for (int i = 0; i < props.Length; i++)
                 {
+                    //var newI = startingIndex + i;
 
+                    sheet.Cells[ExcelCellAddress.GetColumnLetter(i + 1) + row.ToString()].Value = props[i].Name;
+                }
+                row += 2;
+
+                var rowb = row;
+
+                for (int i = 0; i < props.Length; i++)
+                {
                     var prop = item.GetType().GetProperty(props[i].Name).GetValue(item);
-
-
-                    //Alternative....
-                    //List<Object> collection = new List<Object>((IEnumerable<Object>)prop);
-                    //.....Works.....
 
                     if (prop is IEnumerable<Object>)
                     {
@@ -210,7 +182,7 @@ namespace Xporter
                                 Style.VerticalAlignment = OfficeOpenXml.Style.ExcelVerticalAlignment.Center;
 
                             rowb++;
-                            rowf = rowf < rowb ? rowb : rowf;
+                            rowFlag = rowFlag < rowb ? rowb : rowFlag;
                         }
 
                     }
@@ -225,23 +197,13 @@ namespace Xporter
 
                         sheet.Cells[ExcelCellAddress.GetColumnLetter(i + 1) + row].
                             Style.VerticalAlignment = OfficeOpenXml.Style.ExcelVerticalAlignment.Center;
+
+                        rowFlag = rowFlag < row ? row : rowFlag;
                     }
                     rowb = row;
-                    //foreach (var ad in collection)
-                    //{
-                    //    //do what you want here
-                    //}
-
                 }
-                row = rowf + 1;
+                row = rowFlag + 2;
             }
-            var allCells = sheet.Cells[1, 1, sheet.Dimension.End.Row, sheet.Dimension.End.Column];
-
-            var cellFont = allCells.Style.Font;
-            cellFont.Name = "Bahnschrift Light SemiCondensed";
-
-            pack.Save();
-
             return pack;
         }
 
@@ -257,23 +219,36 @@ namespace Xporter
                 sheet.Cells[item.Key].Value = item.Value;
             }
 
-            //pack.Save();
-
             return pack;
         }
 
         /// <summary>
-        /// Clears all data of the xlsx file
+        /// Clears all data of the xlsx file 
+        /// <br></br>
+        /// (Works only with FileInfo NOT Stream)
         /// </summary>
         /// <param name="package"></param>
         /// <returns>ExcelPackage</returns>
         public static ExcelPackage Clear(this ExcelPackage package)
         {
-            var sheet = LoadSheet(package);
+            package.Workbook.Worksheets.ToList().ForEach(f=>f.Cells.Clear());
 
-            sheet.Cells.Clear();
+            return package;
+        }
 
-            package.Save();
+        /// <summary>
+        /// Clears all data of the xlsx WorkSheet
+        /// <br></br>
+        /// (Works only with FileInfo NOT Stream)
+        /// </summary>
+        /// <param name="package"></param>
+        /// <param name="SheetName">WorkSheet Name to clear</param>
+        /// <returns>ExcelPackage</returns>
+        public static ExcelPackage Clear(this ExcelPackage package, string SheetName)
+        {
+            package.Workbook.Worksheets.Where(w => w.Name == SheetName)
+                                       .FirstOrDefault().Cells
+                                       .Clear();
 
             return package;
         }
@@ -286,8 +261,6 @@ namespace Xporter
         /// <returns>ExcelWorksheet</returns>
         private static ExcelWorksheet LoadSheet(ExcelPackage pack)
         {
-            ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
-
             var activeSheet = pack.Workbook.Worksheets.FirstOrDefault();
 
             if (activeSheet is null)

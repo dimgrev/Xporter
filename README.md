@@ -1,5 +1,5 @@
 # Xporter
-![CI](https://github.com/dimgrev/Xporter/actions/workflows/ci.yml/badge.svg)
+![CI](https://github.com/dimgrev/Xporter/actions/workflows/ci.yml/badge.svg) 
 
 "Xporter" allows users to export Spreadsheet files easily from either any object type or list of properties as a source, using pre-existing .xlsx files as Templates.
 
@@ -22,22 +22,16 @@ a service that exports any kind of data that you will provide to it.
 Like the method above:
 
 ```C#
-public static void DataToXport(List<object> objects)
+public static void InsertData(List<object> objects)
 {
 }
 ```
 
 ## Instalation
 ##### [Using NuGet]
--- not yet
-
--- be patient..
-
--- it will be something like this:
-
 Search into the NuGet packages the library or run the following command:
 
-PM> Install-Package Xporter.Core -Version 0.1.0-alpha
+PM> Install-Package Xporter.Core -Version 0.1.1-alpha
 
 ##### [Manual]
 * Download this repository: <a href="https://github.com/dimgrev/Xporter/archive/main.zip" target="_blank">here</a>
@@ -62,20 +56,34 @@ UtilityXporter
 ```
 
 ## Usage
--- not yet
+To use this library, add a using statement for Xporter {using Xporter;}
 
--- be patient..
+Now you can call the base static class named "Xport."
+
+and on that class call one of three methods:
+
+	* Xport.LoadFromFileInfo()
+	* Xport.LoadFromFileStream()
+	* Xport.CreateNewPackage()
+
+Then you can use the library extensions methods listed below as you like:
+
+	* .LoadTempl()				--> to load a template from another xlsx file to the current one
+	* .InsertData()		+2 overloads	--> to insert any kind of data from a model all other source
+	* .WriteToCells()			--> to write something in specified cells
+	* .Clear()		+2 overloads	--> to clear the data of a worksheet or clear all sheets of a file
 
 ## ToDo
--- not yet
+- Add method Insert-inTo-Cells based on the content that cells hold <br>
+** eg. insertToCells(cell's value: string "&lt; Insert Here &gt; ", value to insert: string "Put This into that cell");
 
--- be patient..
+- Maybe - Change Xlsx File's style
 
 ## License
 
 The MIT License (MIT)
 
-Copyright ©2021 Dimitris Grevenos
+Copyright Â©2021 Dimitris Grevenos
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal

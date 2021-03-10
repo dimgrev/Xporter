@@ -1,10 +1,7 @@
 ﻿using OfficeOpenXml;
 using System;
-using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Reflection;
-using System.Text;
 
 namespace Xporter
 {
@@ -54,7 +51,7 @@ namespace Xporter
         }
         /// <summary>
         /// Creates a new XlsxPackage <br></br>
-        ///  - Do not forget to use SaveAs() method
+        /// >  Do not forget to use SaveAs() method
         /// </summary>
         /// <returns></returns>
         public static ExcelPackage CreateNewPackage()
