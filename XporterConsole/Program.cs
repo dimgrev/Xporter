@@ -102,34 +102,45 @@ namespace XporterConsole
 
             //USAGE EXAMPLE1...
 
-            //Xport.LoadFromFileInfo(filePath)
-            //     .Clear()
-            //     //.LoadTempl(new FileStream(templFullPath, FileMode.Open))
-            //     .InsertData(stds)
-            //     .Save();
+            Xport.LoadFromFileInfo(filePath)
+                 .Clear()
+                 .LoadTempl(new FileStream(templFullPath, FileMode.Open))
+                 .InsertData(stds)
+                 .Save();
 
 
             //USAGE EXAMPLE2...
 
             var fileStream = new FileStream(exportPath, FileMode.OpenOrCreate);
             Xport.LoadFromStream(fileStream, "TestSheetName")
-                 .InsertData2(stds, 8, 2)
+                 .InsertData(stds, 8, 2)
                  .WriteToCells(cp)
                  .Save();
+
+            fileStream.Close();
 
 
             //USAGE EXAMPLE3...
 
+            var exportPath3 = "C:\\Users\\dgrevenos\\source\\repos\\Xporter\\XporterConsole\\Exports\\TestFileName3.xlsx";
+
             var fileStream2 = new FileStream(exportPath2, FileMode.OpenOrCreate);
             Xport.LoadFromStream(fileStream2, "TestSheetName")
-                 .InsertData2(obj2, 8, 2)
-                 .WriteToCells(cp)
-                 .Save();
+                .InsertData(obj2).Save();
 
+            fileStream2.Close();
+
+
+            //var fileStream3 = new FileStream(exportPath3, FileMode.OpenOrCreate);
+
+            Xport.LoadFromFileInfo(exportPath2)
+                .Clear()
+                .SaveAs( new FileInfo(exportPath3));
 
             //USAGE EXAMPLE4...
+            var exportPath4 = "C:\\Users\\dgrevenos\\source\\repos\\Xporter\\XporterConsole\\Exports\\";
 
-            //Xport.CreateNewPackage().InsertData(stds, 8, 2).SaveAs(new FileInfo(exportPath));
+            Xport.CreateNewPackage().InsertData(stds, 8, 2).SaveAs(new FileInfo(exportPath4 + "New Microsoft Excel Worksheet.xlsx"));
 
 
             //USAGE EXAMPLE5...

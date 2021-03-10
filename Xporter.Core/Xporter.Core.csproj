@@ -2,14 +2,14 @@
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
-    <Version>0.1.0-alpha</Version>
-    <Authors>dimgrev</Authors>
+    <Version>0.1.1-alpha</Version>
+    <Authors>Dimitris Grevenos</Authors>
     <Company />
     <PackageTags>Xporter, export, spreadsheet, xlsx, excel, exporting</PackageTags>
     <Description>"Xporter" allows users to export Spreadsheet files easily from either any object type or list of properties as a source, using pre-existing .xlsx files as Templates.</Description>
     <PackageProjectUrl></PackageProjectUrl>
     <PackageIcon>XporterIcon.png</PackageIcon>
-    <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <Product>Xporter Library</Product>
     <Copyright>2021</Copyright>
@@ -25,7 +25,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="EPPlus" Version="5.5.2" />
+    <PackageReference Include="EPPlus" Version="5.5.5" />
   </ItemGroup>
 
   <ItemGroup>
