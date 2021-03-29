@@ -49,13 +49,52 @@ namespace Xporter
         /// </summary>
         /// <param name="pack">This xlsx package as extension method</param>
         /// <param name="objs">The list of your Data that you want to insert</param>
+        /// <returns>ExcelPackage</returns>
+        public static ExcelPackage InsertData(this ExcelPackage pack, List<object> objs)
+        {
+            var sheet = LoadSheet(pack);
+            var rowFlag = 0;
+            var row = 1;
+
+            for (int j = 0; j < objs.Count; j++)
+            {
+                var item = objs[j];
+
+                if (item is IEnumerable<Object>)
+                {
+                    var ite = ((IEnumerable<Object>)item).FirstOrDefault();
+
+                    row = InsertProperties(sheet, rowFlag, row, 1, ite);
+
+                    foreach (var it in ((IEnumerable<Object>)item))
+                    {
+                        row = Insert(sheet, rowFlag, row, 1, it);
+                    }
+                    row += 2;
+                }
+                else
+                {
+                    row = InsertProperties(sheet, rowFlag, row, 1, item);
+                    row = Insert(sheet, rowFlag, row, 1, item);
+                    row++;
+                }
+            }
+            return pack;
+        }
+
+        //Over Load method
+
+        /// <summary>
+        /// Insert any object type or list of properties to the current package
+        /// </summary>
+        /// <param name="pack">This xlsx package as extension method</param>
+        /// <param name="objs">The list of your Data that you want to insert</param>
         /// <param name="startingRow">In which row you want the program to start inserting data (starts at 1)</param>
         /// <param name="startingCol">In which column you want the program to start inserting data (starts at 1)</param>
         /// <returns>ExcelPackage</returns>
         public static ExcelPackage InsertData(this ExcelPackage pack, List<object> objs, int startingRow, int startingCol)
         {
             var sheet = LoadSheet(pack);
-
             var rowFlag = 0;
             var row = startingRow;
 
@@ -67,53 +106,24 @@ namespace Xporter
                 {
                     var ite = ((IEnumerable<Object>)item).FirstOrDefault();
 
-                    var newRow = InsertProperties(sheet, rowFlag, row, startingCol, ite);
+                    row = InsertProperties(sheet, rowFlag, row, startingCol, ite);
 
                     foreach (var it in ((IEnumerable<Object>)item))
                     {
-                        var r = Insert(sheet, rowFlag, newRow, startingCol, it);
-                        newRow = r;
+                        row = Insert(sheet, rowFlag, row, startingCol, it);
                     }
+                    row+=2;
                 }
                 else
                 {
-                    var newRow = InsertProperties(sheet, rowFlag, row, 1, item);
-
-                    Insert(sheet, rowFlag, newRow, startingCol, item);
+                    row = InsertProperties(sheet, rowFlag, row, startingCol, item);
+                    row = Insert(sheet, rowFlag, row, startingCol, item);
+                    row++;
                 }
             }
             return pack;
         }
 
-        //Under load
-        public static ExcelPackage InsertData(this ExcelPackage pack, List<object> objs)
-        {
-            var sheet = LoadSheet(pack);
-
-            var rowFlag = 0;
-            var row = 1;
-
-            for (int j = 0; j < objs.Count; j++)
-            {
-                var item = objs[j];
-
-                var newRow = InsertProperties(sheet, rowFlag, row, 1, item);
-
-                if (item is IEnumerable<Object>)
-                {
-                    foreach (var it in ((IEnumerable<Object>)item))
-                    {
-                        var r = Insert(sheet, rowFlag, newRow, 1, it);
-                        newRow = r;
-                    }
-                }
-                else
-                {
-                    Insert(sheet, rowFlag, newRow, 1, item);
-                }
-            }
-            return pack;
-        }
 
         /// <summary>
         /// 

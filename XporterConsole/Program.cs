@@ -15,36 +15,21 @@ namespace XporterConsole
 
             var stds = new List<object>();
 
-            //var std = new Students();
-            //std.FirstName = new List<string>();
-            //std.LastName = new List<string>();
+            var std = new Students();
+            std.FirstName = new List<string>();
+            std.LastName = new List<string>();
 
-            //std.FirstName.Add("DimitrisA" + 1);
-            //std.FirstName.Add("DimitrisB" + 1);
-            //std.FirstName.Add("DimitrisC" + 1);
-            //std.FirstName.Add("DimitrisD" + 1);
-            //std.FirstName.Add("DimitrisE" + 1);
+            std.FirstName.Add("DimitrisA" + 1);
+            std.FirstName.Add("DimitrisB" + 1);
+            std.FirstName.Add("DimitrisC" + 1);
+            std.FirstName.Add("DimitrisD" + 1);
+            std.FirstName.Add("DimitrisE" + 1);
 
-            //std.LastName.Add("GrevenosA" + 1);
-            //std.LastName.Add("GrevenosB" + 1);
-            //std.LastName.Add("GrevenosC" + 1);
+            std.LastName.Add("GrevenosA" + 1);
+            std.LastName.Add("GrevenosB" + 1);
+            std.LastName.Add("GrevenosC" + 1);
 
-            //stds.Add(std);
-
-            //var std2 = new Students();
-            //std2.FirstName = new List<string>();
-            //std2.LastName = new List<string>();
-
-            //std2.FirstName.Add("DimitrisA" + 2);
-            //std2.FirstName.Add("DimitrisB" + 2);
-            //std2.FirstName.Add("DimitrisC" + 2);
-            //std2.FirstName.Add("DimitrisD" + 2);
-            //std2.FirstName.Add("DimitrisE" + 2);
-
-            //std2.LastName.Add("GrevenosA" + 2);
-            //std2.LastName.Add("GrevenosB" + 2);
-
-            //stds.Add(std2);
+            stds.Add(std);
 
             //Adding Anonymous type List<object> in List<object> for InsertData
             var nestedObj = new List<object>();
@@ -55,6 +40,21 @@ namespace XporterConsole
             nestedObj.Add(new { user = 10, firstName = 11, lastname = (string)null});
 
             stds.Add(nestedObj);
+
+            var std2 = new Students();
+            std2.FirstName = new List<string>();
+            std2.LastName = new List<string>();
+
+            std2.FirstName.Add("DimitrisA" + 2);
+            std2.FirstName.Add("DimitrisB" + 2);
+            std2.FirstName.Add("DimitrisC" + 2);
+            std2.FirstName.Add("DimitrisD" + 2);
+            std2.FirstName.Add("DimitrisE" + 2);
+
+            std2.LastName.Add("GrevenosA" + 2);
+            std2.LastName.Add("GrevenosB" + 2);
+
+            stds.Add(std2);
 
             var obj2 = new List<object>();
 
