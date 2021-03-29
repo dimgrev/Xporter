@@ -15,37 +15,45 @@ namespace XporterConsole
 
             var stds = new List<object>();
 
-            var std = new Students();
-            std.FirstName = new List<string>();
-            std.LastName = new List<string>();
+            //var std = new Students();
+            //std.FirstName = new List<string>();
+            //std.LastName = new List<string>();
 
-            std.FirstName.Add("DimitrisA" + 1);
-            std.FirstName.Add("DimitrisB" + 1);
-            std.FirstName.Add("DimitrisC" + 1);
-            std.FirstName.Add("DimitrisD" + 1);
-            std.FirstName.Add("DimitrisE" + 1);
+            //std.FirstName.Add("DimitrisA" + 1);
+            //std.FirstName.Add("DimitrisB" + 1);
+            //std.FirstName.Add("DimitrisC" + 1);
+            //std.FirstName.Add("DimitrisD" + 1);
+            //std.FirstName.Add("DimitrisE" + 1);
 
-            std.LastName.Add("GrevenosA" + 1);
-            std.LastName.Add("GrevenosB" + 1);
-            std.LastName.Add("GrevenosC" + 1);
+            //std.LastName.Add("GrevenosA" + 1);
+            //std.LastName.Add("GrevenosB" + 1);
+            //std.LastName.Add("GrevenosC" + 1);
 
-            stds.Add(std);
+            //stds.Add(std);
 
-            var std2 = new Students();
-            std2.FirstName = new List<string>();
-            std2.LastName = new List<string>();
+            //var std2 = new Students();
+            //std2.FirstName = new List<string>();
+            //std2.LastName = new List<string>();
 
-            std2.FirstName.Add("DimitrisA" + 2);
-            std2.FirstName.Add("DimitrisB" + 2);
-            std2.FirstName.Add("DimitrisC" + 2);
-            std2.FirstName.Add("DimitrisD" + 2);
-            std2.FirstName.Add("DimitrisE" + 2);
+            //std2.FirstName.Add("DimitrisA" + 2);
+            //std2.FirstName.Add("DimitrisB" + 2);
+            //std2.FirstName.Add("DimitrisC" + 2);
+            //std2.FirstName.Add("DimitrisD" + 2);
+            //std2.FirstName.Add("DimitrisE" + 2);
 
-            std2.LastName.Add("GrevenosA" + 2);
-            std2.LastName.Add("GrevenosB" + 2);
+            //std2.LastName.Add("GrevenosA" + 2);
+            //std2.LastName.Add("GrevenosB" + 2);
 
             //stds.Add(std2);
 
+            //Adding Anonymous type List<object> in List<object> for InsertData
+            var nestedObj = new List<object>();
+            nestedObj.Add(new { user = 1, firstName = 2, lastName = 3});
+            nestedObj.Add(new { user = 4, firstName = 5, lastName = 6});
+            nestedObj.Add(new { user = 7, firstName = 8, lastName = 9});
+            nestedObj.Add(new { user = 10, firstName = 11, lastName = 12});
+
+            stds.Add(nestedObj);
 
             var obj2 = new List<object>();
 
@@ -104,7 +112,7 @@ namespace XporterConsole
             Xport.LoadFromFileInfo(filePath)
                  .Clear()
                  .LoadTempl(new FileStream(templFullPath, FileMode.Open))
-                 .InsertData(stds)
+                 .InsertData(stds, 8, 2)
                  .Save();
 
 
