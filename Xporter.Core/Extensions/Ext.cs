@@ -65,15 +65,21 @@ namespace Xporter
 
                 if (item is IEnumerable<Object>)
                 {
+                    var ite = ((IEnumerable<Object>)item).FirstOrDefault();
+
+                    var newRow = InsertProperties(sheet, rowFlag, row, startingCol, ite);
+
                     foreach (var it in ((IEnumerable<Object>)item))
                     {
-                        var r = Insert(sheet, rowFlag, row, startingCol, it);
-                        row = r;
+                        var r = Insert(sheet, rowFlag, newRow, startingCol, it);
+                        newRow = r;
                     }
                 }
                 else
                 {
-                    Insert(sheet, rowFlag, row, startingCol, item);
+                    var newRow = InsertProperties(sheet, rowFlag, row, 1, item);
+
+                    Insert(sheet, rowFlag, newRow, startingCol, item);
                 }
             }
             return pack;
@@ -91,17 +97,19 @@ namespace Xporter
             {
                 var item = objs[j];
 
+                var newRow = InsertProperties(sheet, rowFlag, row, 1, item);
+
                 if (item is IEnumerable<Object>)
                 {
                     foreach (var it in ((IEnumerable<Object>)item))
                     {
-                        var r = Insert(sheet, rowFlag, row, 1, it);
-                        row = r;
+                        var r = Insert(sheet, rowFlag, newRow, 1, it);
+                        newRow = r;
                     }
                 }
                 else
                 {
-                    Insert(sheet, rowFlag, row, 1, item);
+                    Insert(sheet, rowFlag, newRow, 1, item);
                 }
             }
             return pack;
@@ -117,6 +125,8 @@ namespace Xporter
             foreach (var item in cp)
             {
                 sheet.Cells[item.Key].Value = item.Value;
+                sheet.Cells[item.Key].Style.VerticalAlignment = OfficeOpenXml.Style.ExcelVerticalAlignment.Center;
+                sheet.Cells[item.Key].AutoFitColumns(15);
             }
 
             return pack;
@@ -171,6 +181,32 @@ namespace Xporter
             return activeSheet;
         }
 
+        private static int InsertProperties(ExcelWorksheet sheet, int rowFlag, int row, int startingCol, object item)
+        {
+
+            //Takes the type of the first object
+            var firstObjType = item.GetType();
+
+            //Get all Properties from that type class
+            var props = firstObjType.GetProperties();
+
+            for (int i = 0; i < props.Length; i++)
+            {
+                sheet.Cells[ExcelCellAddress.GetColumnLetter(i + startingCol) + row.ToString()].Value = (props[i].Name ?? "null").ToString() ?? "null";
+
+                sheet.Cells[ExcelCellAddress.GetColumnLetter(i + startingCol) + row.ToString()]
+                     .Style.HorizontalAlignment = OfficeOpenXml.Style.ExcelHorizontalAlignment.Center;
+
+                sheet.Cells[ExcelCellAddress.GetColumnLetter(i + startingCol) + row.ToString()]
+                     .Style.VerticalAlignment = OfficeOpenXml.Style.ExcelVerticalAlignment.Center;
+
+                sheet.Cells[ExcelCellAddress.GetColumnLetter(i + startingCol) + row.ToString()]
+                     .AutoFitColumns(15);
+            }
+            row += 1;
+
+            return row;   
+        }
 
         private static int Insert(ExcelWorksheet sheet, int rowFlag, int row, int startingCol, object item)
         {
@@ -180,19 +216,7 @@ namespace Xporter
             //Get all Properties from that type class
             var props = firstObjType.GetProperties();
 
-            for (int i = 0; i < props.Length; i++)
-            {
-                //var newI = startingIndex + i;
-
-                sheet.Cells[ExcelCellAddress.GetColumnLetter(i + startingCol) + row.ToString()].Value = (props[i].Name ?? "null").ToString() ?? "null";
-
-                sheet.Cells[ExcelCellAddress.GetColumnLetter(i + startingCol) + row.ToString()]
-                     .Style.HorizontalAlignment = OfficeOpenXml.Style.ExcelHorizontalAlignment.Center;
-
-                sheet.Cells[ExcelCellAddress.GetColumnLetter(i + startingCol) + row.ToString()]
-                     .Style.VerticalAlignment = OfficeOpenXml.Style.ExcelVerticalAlignment.Center;
-            }
-            row += 2;
+            row += 1;
 
             var rowb = row;
 
@@ -219,6 +243,9 @@ namespace Xporter
                         sheet.Cells[ExcelCellAddress.GetColumnLetter(i + startingCol) + rowb.ToString()]
                              .Style.VerticalAlignment = OfficeOpenXml.Style.ExcelVerticalAlignment.Center;
 
+                        sheet.Cells[ExcelCellAddress.GetColumnLetter(i + startingCol) + rowb.ToString()]
+                             .AutoFitColumns(15);
+
                         rowb++;
                         rowFlag = rowFlag < rowb ? rowb : rowFlag;
                     }
@@ -237,11 +264,14 @@ namespace Xporter
                     sheet.Cells[ExcelCellAddress.GetColumnLetter(i + startingCol) + row.ToString()]
                          .Style.VerticalAlignment = OfficeOpenXml.Style.ExcelVerticalAlignment.Center;
 
+                    sheet.Cells[ExcelCellAddress.GetColumnLetter(i + startingCol) + row.ToString()]
+                         .AutoFitColumns(15);
+
                     rowFlag = rowFlag < row ? row : rowFlag;
                 }
                 rowb = row;
             }
-            row = rowFlag + 2;
+            row = rowFlag;
 
             return row;
         }

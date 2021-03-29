@@ -11,6 +11,6 @@ namespace XporterConsole
         public int ID { get; set; }
         public List<string> FirstName { get; set; }
         public List<string> LastName { get; set; }
-        public int TeacherNum { get; set; }
+        public int TeacherNumber { get; set; }
     }
 }
