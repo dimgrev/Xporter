@@ -52,6 +52,7 @@ namespace XporterConsole
             nestedObj.Add(new { user = 4, firstName = 5, lastName = 6});
             nestedObj.Add(new { user = 7, firstName = 8, lastName = 9});
             nestedObj.Add(new { user = 10, firstName = 11, lastName = 12});
+            nestedObj.Add(new { user = 10, firstName = 11, lastname = (string)null});
 
             stds.Add(nestedObj);
 

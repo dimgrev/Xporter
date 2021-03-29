@@ -184,7 +184,7 @@ namespace Xporter
             {
                 //var newI = startingIndex + i;
 
-                sheet.Cells[ExcelCellAddress.GetColumnLetter(i + startingCol) + row.ToString()].Value = props[i].Name.ToString();
+                sheet.Cells[ExcelCellAddress.GetColumnLetter(i + startingCol) + row.ToString()].Value = (props[i].Name ?? "null").ToString() ?? "null";
 
                 sheet.Cells[ExcelCellAddress.GetColumnLetter(i + startingCol) + row.ToString()]
                      .Style.HorizontalAlignment = OfficeOpenXml.Style.ExcelHorizontalAlignment.Center;
@@ -198,7 +198,7 @@ namespace Xporter
 
             for (int i = 0; i < props.Length; i++)
             {
-                var prop = item.GetType().GetProperty(props[i].Name).GetValue(item);
+                var prop = item.GetType().GetProperty(props[i].Name).GetValue(item) ?? "null";
 
                 if (prop is IEnumerable<Object>)
                 {
@@ -211,7 +211,7 @@ namespace Xporter
                     foreach (var ad in list)
                     {
                         //do what you want here
-                        sheet.Cells[ExcelCellAddress.GetColumnLetter(i + startingCol) + rowb.ToString()].Value = ad.ToString();
+                        sheet.Cells[ExcelCellAddress.GetColumnLetter(i + startingCol) + rowb.ToString()].Value = (ad ?? "null").ToString() ?? "null";
 
                         sheet.Cells[ExcelCellAddress.GetColumnLetter(i + startingCol) + rowb.ToString()]
                              .Style.HorizontalAlignment = OfficeOpenXml.Style.ExcelHorizontalAlignment.Center;
@@ -226,10 +226,10 @@ namespace Xporter
                 }
                 else
                 {
-                    sheet.Cells[ExcelCellAddress.GetColumnLetter(i + startingCol) + row].Value = item.GetType()
+                    sheet.Cells[ExcelCellAddress.GetColumnLetter(i + startingCol) + row].Value = (item.GetType()
                         .GetProperty(props[i].Name)
-                        .GetValue(item, null)
-                        .ToString();
+                        .GetValue(item, null) ?? "null")
+                        .ToString() ?? "null";
 
                     sheet.Cells[ExcelCellAddress.GetColumnLetter(i + startingCol) + row.ToString()]
                          .Style.HorizontalAlignment = OfficeOpenXml.Style.ExcelHorizontalAlignment.Center;

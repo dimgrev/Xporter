@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
-    <Version>0.1.1-alpha</Version>
+    <Version>0.1.3-alpha</Version>
     <Authors>Dimitris Grevenos</Authors>
     <Company />
     <PackageTags>Xporter, export, spreadsheet, xlsx, excel, exporting</PackageTags>
@@ -15,6 +15,11 @@
     <Copyright>2021</Copyright>
     <RepositoryUrl>https://github.com/dimgrev/Xporter</RepositoryUrl>
     <PackageId>Xporter</PackageId>
+    <PackageReleaseNotes>-Fixed InsertData to recognise Anonymous types (List&lt;object&gt; into list&lt;object&gt; for insertion)
+-Now it works also with an object that insides has queries like from a db!
+-Also fixed cells alignment!
+&lt;New&gt;Handled nullable entries for insertion!
+</PackageReleaseNotes>
   </PropertyGroup>
 
   <ItemGroup>
