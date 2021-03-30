@@ -66,7 +66,7 @@ namespace Xporter
 
                     row = InsertProperties(sheet, rowFlag, row, 1, ite);
 
-                    foreach (var it in ((IEnumerable<Object>)item))
+                    foreach (var it in (IEnumerable<Object>)item)
                     {
                         row = Insert(sheet, rowFlag, row, 1, it);
                     }
@@ -106,13 +106,16 @@ namespace Xporter
                 {
                     var ite = ((IEnumerable<Object>)item).FirstOrDefault();
 
-                    row = InsertProperties(sheet, rowFlag, row, startingCol, ite);
-
-                    foreach (var it in ((IEnumerable<Object>)item))
+                    if (ite != null)
                     {
-                        row = Insert(sheet, rowFlag, row, startingCol, it);
+                        row = InsertProperties(sheet, rowFlag, row, startingCol, ite);
+
+                        foreach (var it in ((IEnumerable<Object>)item))
+                        {
+                            row = Insert(sheet, rowFlag, row, startingCol, it);
+                        }
+                        row += 2; 
                     }
-                    row+=2;
                 }
                 else
                 {
@@ -193,6 +196,8 @@ namespace Xporter
 
         private static int InsertProperties(ExcelWorksheet sheet, int rowFlag, int row, int startingCol, object item)
         {
+            if (item == null)
+                return row;
 
             //Takes the type of the first object
             var firstObjType = item.GetType();
@@ -220,6 +225,9 @@ namespace Xporter
 
         private static int Insert(ExcelWorksheet sheet, int rowFlag, int row, int startingCol, object item)
         {
+            if (item == null)
+                return row;
+
             //Takes the type of the first object
             var firstObjType = item.GetType();
 
@@ -228,60 +236,63 @@ namespace Xporter
 
             row += 1;
 
-            var rowb = row;
-
-            for (int i = 0; i < props.Length; i++)
+            if (props.Length > 0)
             {
-                var prop = item.GetType().GetProperty(props[i].Name).GetValue(item) ?? "null";
+                var rowb = row;
 
-                if (prop is IEnumerable<Object>)
+                for (int i = 0; i < props.Length; i++)
                 {
-                    List<object> list = new List<object>();
-                    var enumerator = ((IEnumerable<Object>)prop).GetEnumerator();
-                    while (enumerator.MoveNext())
-                    {
-                        list.Add(enumerator.Current);
-                    }
-                    foreach (var ad in list)
-                    {
-                        //do what you want here
-                        sheet.Cells[ExcelCellAddress.GetColumnLetter(i + startingCol) + rowb.ToString()].Value = (ad ?? "null").ToString() ?? "null";
+                    var prop = item.GetType().GetProperty(props[i].Name).GetValue(item) ?? "null";
 
-                        sheet.Cells[ExcelCellAddress.GetColumnLetter(i + startingCol) + rowb.ToString()]
+                    if (prop is IEnumerable<Object>)
+                    {
+                        List<object> list = new List<object>();
+                        var enumerator = ((IEnumerable<Object>)prop).GetEnumerator();
+                        while (enumerator.MoveNext())
+                        {
+                            list.Add(enumerator.Current);
+                        }
+                        foreach (var ad in list)
+                        {
+                            //do what you want here
+                            sheet.Cells[ExcelCellAddress.GetColumnLetter(i + startingCol) + rowb.ToString()].Value = (ad ?? "null").ToString() ?? "null";
+
+                            sheet.Cells[ExcelCellAddress.GetColumnLetter(i + startingCol) + rowb.ToString()]
+                                 .Style.HorizontalAlignment = OfficeOpenXml.Style.ExcelHorizontalAlignment.Center;
+
+                            sheet.Cells[ExcelCellAddress.GetColumnLetter(i + startingCol) + rowb.ToString()]
+                                 .Style.VerticalAlignment = OfficeOpenXml.Style.ExcelVerticalAlignment.Center;
+
+                            sheet.Cells[ExcelCellAddress.GetColumnLetter(i + startingCol) + rowb.ToString()]
+                                 .AutoFitColumns(15);
+
+                            rowb++;
+                            rowFlag = rowFlag < rowb ? rowb : rowFlag;
+                        }
+
+                    }
+                    else
+                    {
+                        sheet.Cells[ExcelCellAddress.GetColumnLetter(i + startingCol) + row].Value = (item.GetType()
+                            .GetProperty(props[i].Name)
+                            .GetValue(item, null) ?? "null")
+                            .ToString() ?? "null";
+
+                        sheet.Cells[ExcelCellAddress.GetColumnLetter(i + startingCol) + row.ToString()]
                              .Style.HorizontalAlignment = OfficeOpenXml.Style.ExcelHorizontalAlignment.Center;
 
-                        sheet.Cells[ExcelCellAddress.GetColumnLetter(i + startingCol) + rowb.ToString()]
+                        sheet.Cells[ExcelCellAddress.GetColumnLetter(i + startingCol) + row.ToString()]
                              .Style.VerticalAlignment = OfficeOpenXml.Style.ExcelVerticalAlignment.Center;
 
-                        sheet.Cells[ExcelCellAddress.GetColumnLetter(i + startingCol) + rowb.ToString()]
+                        sheet.Cells[ExcelCellAddress.GetColumnLetter(i + startingCol) + row.ToString()]
                              .AutoFitColumns(15);
 
-                        rowb++;
-                        rowFlag = rowFlag < rowb ? rowb : rowFlag;
+                        rowFlag = rowFlag < row ? row : rowFlag;
                     }
-
+                    rowb = row;
                 }
-                else
-                {
-                    sheet.Cells[ExcelCellAddress.GetColumnLetter(i + startingCol) + row].Value = (item.GetType()
-                        .GetProperty(props[i].Name)
-                        .GetValue(item, null) ?? "null")
-                        .ToString() ?? "null";
-
-                    sheet.Cells[ExcelCellAddress.GetColumnLetter(i + startingCol) + row.ToString()]
-                         .Style.HorizontalAlignment = OfficeOpenXml.Style.ExcelHorizontalAlignment.Center;
-
-                    sheet.Cells[ExcelCellAddress.GetColumnLetter(i + startingCol) + row.ToString()]
-                         .Style.VerticalAlignment = OfficeOpenXml.Style.ExcelVerticalAlignment.Center;
-
-                    sheet.Cells[ExcelCellAddress.GetColumnLetter(i + startingCol) + row.ToString()]
-                         .AutoFitColumns(15);
-
-                    rowFlag = rowFlag < row ? row : rowFlag;
-                }
-                rowb = row;
+                row = rowFlag; 
             }
-            row = rowFlag;
 
             return row;
         }

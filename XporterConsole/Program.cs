@@ -38,8 +38,16 @@ namespace XporterConsole
             nestedObj.Add(new { user = 7, firstName = 8, lastName = 9});
             nestedObj.Add(new { user = 10, firstName = (string)null, lastName = 12});
             nestedObj.Add(new { user = 10, firstName = 11, lastname = (string)null});
+            nestedObj.Add(new { });
+            nestedObj.Add(new object());
+
+            //var query = from Students in stds
+            //            where 
 
             stds.Add(nestedObj);
+
+            var nullObj = new List<object>();
+            stds.Add(nullObj);
 
             var std2 = new Students();
             std2.FirstName = new List<string>();
