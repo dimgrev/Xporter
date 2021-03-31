@@ -110,11 +110,24 @@ namespace Xporter
                     {
                         row = InsertProperties(sheet, rowFlag, row, startingCol, ite);
 
+                        var x = new List<object>();
+                        x.Add(new { });
+
+                        var y = ((IEnumerable<Object>)x).FirstOrDefault();
+                        var z = new object();
+
                         foreach (var it in ((IEnumerable<Object>)item))
                         {
-                            row = Insert(sheet, rowFlag, row, startingCol, it);
+                            if (it.ToString() != z.ToString() && it != null && it.ToString() != y.ToString())
+                            {
+                                row = Insert(sheet, rowFlag, row, startingCol, it); 
+                            }
                         }
-                        row += 2; 
+                        row += 2;
+                    }
+                    else
+                    {
+                        row++;
                     }
                 }
                 else

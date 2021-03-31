@@ -33,10 +33,10 @@ namespace XporterConsole
 
             //Adding Anonymous type List<object> in List<object> for InsertData
             var nestedObj = new List<object>();
-            nestedObj.Add(new { user = 1, firstName = 2, lastName = 3});
-            nestedObj.Add(new { user = (string)null, firstName = 5, lastName = 6});
-            nestedObj.Add(new { user = 7, firstName = 8, lastName = 9});
-            nestedObj.Add(new { user = 10, firstName = (string)null, lastName = 12});
+            //nestedObj.Add(new { user = 1, firstName = 2, lastName = 3});
+            //nestedObj.Add(new { user = (string)null, firstName = 5, lastName = 6});
+            //nestedObj.Add(new { user = 7, firstName = 8, lastName = 9});
+            //nestedObj.Add(new { user = 10, firstName = (string)null, lastName = 12});
             nestedObj.Add(new { user = 10, firstName = 11, lastname = (string)null});
             nestedObj.Add(new { });
             nestedObj.Add(new object());
@@ -47,6 +47,7 @@ namespace XporterConsole
             stds.Add(nestedObj);
 
             var nullObj = new List<object>();
+            stds.Add(new { });
             stds.Add(nullObj);
 
             var std2 = new Students();
