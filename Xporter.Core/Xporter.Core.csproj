@@ -15,9 +15,9 @@
     <Copyright>2021</Copyright>
     <RepositoryUrl>https://github.com/dimgrev/Xporter</RepositoryUrl>
     <PackageId>Xporter</PackageId>
-    <PackageReleaseNotes>Updated (NEW) prerelease version 0.1.6
-- fixed to accept Null objects in List&lt;object&gt; for insertion 
-</PackageReleaseNotes>
+    <PackageReleaseNotes>Updated (NEW) prerelease version 0.1.7
+-Updt adding a new object() or new{} in list doesnt add multy rows
+just adds 1 row instead of 2 or none inside the same category</PackageReleaseNotes>
   </PropertyGroup>
 
   <ItemGroup>

@@ -64,19 +64,52 @@ namespace Xporter
                 {
                     var ite = ((IEnumerable<Object>)item).FirstOrDefault();
 
-                    row = InsertProperties(sheet, rowFlag, row, 1, ite);
-
-                    foreach (var it in (IEnumerable<Object>)item)
+                    if (ite != null)
                     {
-                        row = Insert(sheet, rowFlag, row, 1, it);
+                        row = InsertProperties(sheet, rowFlag, row, 1, ite);
+
+                        var x = new List<object>();
+                        x.Add(new { });
+
+                        var y = ((IEnumerable<Object>)x).FirstOrDefault();
+                        var z = new object();
+
+                        foreach (var it in ((IEnumerable<Object>)item))
+                        {
+                            if (it.ToString() != z.ToString() && it != null && it.ToString() != y.ToString())
+                            {
+                                row = Insert(sheet, rowFlag, row, 1, it);
+                            }
+                            else
+                            {
+                                row++;
+                            }
+                        }
+                        row += 2;
                     }
-                    row += 2;
+                    else
+                    {
+                        row++;
+                    }
                 }
                 else
                 {
-                    row = InsertProperties(sheet, rowFlag, row, 1, item);
-                    row = Insert(sheet, rowFlag, row, 1, item);
-                    row++;
+                    var x = new List<object>();
+                    x.Add(new { });
+
+                    var y = ((IEnumerable<Object>)x).FirstOrDefault();
+                    var z = new object();
+
+                    if (item.ToString() != z.ToString() && item != null && item.ToString() != y.ToString())
+                    {
+                        row = InsertProperties(sheet, rowFlag, row, 1, item);
+                        row = Insert(sheet, rowFlag, row, 1, item);
+                        row++;
+                    }
+                    else
+                    {
+                        row++;
+                    }
                 }
             }
             return pack;
@@ -122,6 +155,10 @@ namespace Xporter
                             {
                                 row = Insert(sheet, rowFlag, row, startingCol, it); 
                             }
+                            else
+                            {
+                                row++;
+                            }
                         }
                         row += 2;
                     }
@@ -132,9 +169,22 @@ namespace Xporter
                 }
                 else
                 {
-                    row = InsertProperties(sheet, rowFlag, row, startingCol, item);
-                    row = Insert(sheet, rowFlag, row, startingCol, item);
-                    row++;
+                    var x = new List<object>();
+                    x.Add(new { });
+
+                    var y = ((IEnumerable<Object>)x).FirstOrDefault();
+                    var z = new object();
+
+                    if (item.ToString() != z.ToString() && item != null && item.ToString() != y.ToString())
+                    {
+                        row = InsertProperties(sheet, rowFlag, row, startingCol, item);
+                        row = Insert(sheet, rowFlag, row, startingCol, item);
+                        row++;
+                    }
+                    else
+                    {
+                        row++;
+                    }
                 }
             }
             return pack;
