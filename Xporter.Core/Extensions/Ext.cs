@@ -1,6 +1,7 @@
 ﻿using OfficeOpenXml;
 using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.IO;
 using System.Linq;
 
@@ -190,10 +191,88 @@ namespace Xporter
             return pack;
         }
 
+        /// <summary>
+        /// Insert any object type or list of properties to a (new/existing) Sheet
+        /// </summary>
+        /// <param name="pack">This xlsx package as extension method</param>
+        /// <param name="SheetName">Insert data to a new or existing Sheet Name</param>
+        /// <param name="objs">The list of your Data that you want to insert</param>
+        /// <param name="startingRow">In which row you want the program to start inserting data (starts at 1)</param>
+        /// <param name="startingCol">In which column you want the program to start inserting data (starts at 1)</param>
+        /// <returns>ExcelPackage</returns>
+        public static ExcelPackage InsertData(this ExcelPackage pack, string SheetName, List<object> objs, int startingRow, int startingCol)
+        {
+            var sheet = LoadSheet(pack, SheetName);
+            var rowFlag = 0;
+            var row = startingRow;
+
+            for (int j = 0; j < objs.Count; j++)
+            {
+                var item = objs[j];
+
+                if (item is IEnumerable<Object>)
+                {
+                    var ite = ((IEnumerable<Object>)item).FirstOrDefault();
+
+                    if (ite != null)
+                    {
+                        row = InsertProperties(sheet, rowFlag, row, startingCol, ite);
+
+                        var x = new List<object>();
+                        x.Add(new { });
+
+                        var y = ((IEnumerable<Object>)x).FirstOrDefault();
+                        var z = new object();
+
+                        foreach (var it in ((IEnumerable<Object>)item))
+                        {
+                            if (it.ToString() != z.ToString() && it != null && it.ToString() != y.ToString())
+                            {
+                                row = Insert(sheet, rowFlag, row, startingCol, it);
+                            }
+                            else
+                            {
+                                row++;
+                            }
+                        }
+                        row += 2;
+                    }
+                    else
+                    {
+                        row++;
+                    }
+                }
+                else
+                {
+                    var x = new List<object>();
+                    x.Add(new { });
+
+                    var y = ((IEnumerable<Object>)x).FirstOrDefault();
+                    var z = new object();
+
+                    if (item.ToString() != z.ToString() && item != null && item.ToString() != y.ToString())
+                    {
+                        row = InsertProperties(sheet, rowFlag, row, startingCol, item);
+                        row = Insert(sheet, rowFlag, row, startingCol, item);
+                        row++;
+                    }
+                    else
+                    {
+                        row++;
+                    }
+                }
+            }
+            return pack;
+        }
 
         /// <summary>
-        /// 
+        /// Write data in specific cells
         /// </summary>
+        /// <param name="pack"></param>
+        /// <param name="cp">Create a new CellProperties() var cp<br></br>
+        /// cp.Add (cells and values) -repeat .Add<br></br>
+        /// and insert it to this method</param>
+        /// <returns></returns>
         public static ExcelPackage WriteToCells(this ExcelPackage pack, CellProperties cp)
         {
             var sheet = LoadSheet(pack);
@@ -202,7 +281,8 @@ namespace Xporter
             {
                 sheet.Cells[item.Key].Value = item.Value;
                 sheet.Cells[item.Key].Style.VerticalAlignment = OfficeOpenXml.Style.ExcelVerticalAlignment.Center;
-                sheet.Cells[item.Key].AutoFitColumns(15);
+                sheet.Cells[item.Key].Style.HorizontalAlignment = OfficeOpenXml.Style.ExcelHorizontalAlignment.Left;
+                sheet.Cells[item.Key].AutoFitColumns(13);
             }
 
             return pack;
@@ -239,7 +319,6 @@ namespace Xporter
             return package;
         }
 
-
         /// <summary>
         /// Loads Sheet from package
         /// </summary>
@@ -252,6 +331,24 @@ namespace Xporter
             if (activeSheet is null)
             {
                 activeSheet = pack.Workbook.Worksheets.Add("Report");
+            }
+
+            return activeSheet;
+        }
+        
+        /// <summary>
+        /// Loads specific Sheet from package
+        /// </summary>
+        /// <param name="pack"></param>
+        /// <param name="SheetName">Specify SheetName</param>
+        /// <returns>ExcelWorksheet</returns>
+        private static ExcelWorksheet LoadSheet(ExcelPackage pack, string SheetName)
+        {
+            var activeSheet = pack.Workbook.Worksheets.Where(w => w.Name == SheetName).FirstOrDefault();
+
+            if (activeSheet is null)
+            {
+                activeSheet = pack.Workbook.Worksheets.Add(SheetName);
             }
 
             return activeSheet;
@@ -273,15 +370,25 @@ namespace Xporter
                 sheet.Cells[ExcelCellAddress.GetColumnLetter(i + startingCol) + row.ToString()].Value = (props[i].Name ?? "null").ToString() ?? "null";
 
                 sheet.Cells[ExcelCellAddress.GetColumnLetter(i + startingCol) + row.ToString()]
-                     .Style.HorizontalAlignment = OfficeOpenXml.Style.ExcelHorizontalAlignment.Center;
+                     .Style.HorizontalAlignment = OfficeOpenXml.Style.ExcelHorizontalAlignment.Left;
+
+                sheet.Cells[ExcelCellAddress.GetColumnLetter(i + startingCol) + row.ToString()]
+                     .Style.Font.Bold = true;
+
+                sheet.Cells[ExcelCellAddress.GetColumnLetter(i + startingCol) + row.ToString()]
+                     .Style.Font.Size = 12;
+
+                sheet.Cells[ExcelCellAddress.GetColumnLetter(i + startingCol) + row.ToString()]
+                     .AutoFitColumns(14);
+
+                sheet.Cells[ExcelCellAddress.GetColumnLetter(i + startingCol) + row.ToString()]
+                     .Style.Fill.SetBackground(Color.FromArgb(13684430), OfficeOpenXml.Style.ExcelFillStyle.Solid);
 
                 sheet.Cells[ExcelCellAddress.GetColumnLetter(i + startingCol) + row.ToString()]
                      .Style.VerticalAlignment = OfficeOpenXml.Style.ExcelVerticalAlignment.Center;
-
-                sheet.Cells[ExcelCellAddress.GetColumnLetter(i + startingCol) + row.ToString()]
-                     .AutoFitColumns(15);
             }
-            row += 1;
+            //row += 1;
+            sheet.Cells[row, startingCol, row, (props.Length + startingCol)-1].AutoFilter = true;
 
             return row;   
         }
@@ -317,17 +424,27 @@ namespace Xporter
                         }
                         foreach (var ad in list)
                         {
-                            //do what you want here
-                            sheet.Cells[ExcelCellAddress.GetColumnLetter(i + startingCol) + rowb.ToString()].Value = (ad ?? "null").ToString() ?? "null";
+
+                            if (ad is int)
+                            {
+                                sheet.Cells[ExcelCellAddress.GetColumnLetter(i + startingCol) + rowb.ToString()].Value = (ad ?? "null") ?? "null";
+                            }
+                            else
+                            {
+                                sheet.Cells[ExcelCellAddress.GetColumnLetter(i + startingCol) + rowb.ToString()].Value = (ad ?? "null").ToString() ?? "null";
+                            }
 
                             sheet.Cells[ExcelCellAddress.GetColumnLetter(i + startingCol) + rowb.ToString()]
-                                 .Style.HorizontalAlignment = OfficeOpenXml.Style.ExcelHorizontalAlignment.Center;
+                                 .Style.HorizontalAlignment = OfficeOpenXml.Style.ExcelHorizontalAlignment.Left;
 
                             sheet.Cells[ExcelCellAddress.GetColumnLetter(i + startingCol) + rowb.ToString()]
                                  .Style.VerticalAlignment = OfficeOpenXml.Style.ExcelVerticalAlignment.Center;
 
-                            sheet.Cells[ExcelCellAddress.GetColumnLetter(i + startingCol) + rowb.ToString()]
-                                 .AutoFitColumns(15);
+                            //sheet.Column(i + startingCol)
+                            //     .Width = 13;
+
+                            //sheet.Cells[ExcelCellAddress.GetColumnLetter(i + startingCol) + rowb.ToString()]
+                            //     .AutoFitColumns(13);
 
                             rowb++;
                             rowFlag = rowFlag < rowb ? rowb : rowFlag;
@@ -336,19 +453,32 @@ namespace Xporter
                     }
                     else
                     {
-                        sheet.Cells[ExcelCellAddress.GetColumnLetter(i + startingCol) + row].Value = (item.GetType()
-                            .GetProperty(props[i].Name)
-                            .GetValue(item, null) ?? "null")
-                            .ToString() ?? "null";
+                        if (item.GetType().GetProperty(props[i].Name).GetValue(item, null) is int)
+                        {
+                            sheet.Cells[ExcelCellAddress.GetColumnLetter(i + startingCol) + row].Value = (item.GetType()
+                                                .GetProperty(props[i].Name)
+                                                .GetValue(item, null) ?? "null")
+                                                ?? "null";
+                        }
+                        else
+                        {
+                            sheet.Cells[ExcelCellAddress.GetColumnLetter(i + startingCol) + row].Value = (item.GetType()
+                                                   .GetProperty(props[i].Name)
+                                                   .GetValue(item, null) ?? "null")
+                                                   .ToString() ?? "null";
+                        }
 
                         sheet.Cells[ExcelCellAddress.GetColumnLetter(i + startingCol) + row.ToString()]
-                             .Style.HorizontalAlignment = OfficeOpenXml.Style.ExcelHorizontalAlignment.Center;
+                             .Style.HorizontalAlignment = OfficeOpenXml.Style.ExcelHorizontalAlignment.Left;
 
                         sheet.Cells[ExcelCellAddress.GetColumnLetter(i + startingCol) + row.ToString()]
                              .Style.VerticalAlignment = OfficeOpenXml.Style.ExcelVerticalAlignment.Center;
 
-                        sheet.Cells[ExcelCellAddress.GetColumnLetter(i + startingCol) + row.ToString()]
-                             .AutoFitColumns(15);
+                        //sheet.Column(i + startingCol)
+                        //     .Width = 13;
+
+                        //sheet.Cells[ExcelCellAddress.GetColumnLetter(i + startingCol) + row.ToString()]
+                        //     .AutoFitColumns(13);
 
                         rowFlag = rowFlag < row ? row : rowFlag;
                     }

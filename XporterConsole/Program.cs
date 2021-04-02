@@ -33,7 +33,7 @@ namespace XporterConsole
 
             //Adding Anonymous type List<object> in List<object> for InsertData
             var nestedObj = new List<object>();
-            nestedObj.Add(new { user = 1, firstName = 2, lastName = 3 });
+            nestedObj.Add(new { userUSERUSER = 1, firstNameNameName = 2, lastNameNAMENAMENAME = 3 });
             nestedObj.Add(new { user = (string)null, firstName = 5, lastName = 6 });
             nestedObj.Add(new { });
             nestedObj.Add(new { user = 7, firstName = 8, lastName = 9 });
@@ -65,7 +65,7 @@ namespace XporterConsole
             std2.LastName.Add("GrevenosA" + 2);
             std2.LastName.Add("GrevenosB" + 2);
 
-            stds.Add(std2);
+            //stds.Add(std2);
 
             var obj2 = new List<object>();
 
@@ -106,9 +106,10 @@ namespace XporterConsole
             //Properties...
 
             var cp = new CellProperties();
-            cp.Add("A2", "Stats02");
-            cp.Add("B4", "TypeOfProduct02");
-            cp.Add("B6", "Images02");
+            cp.Add("E2", "Stats");
+            cp.Add("E3", "TypeOfProduct");
+            cp.Add("E4", "Images");
+            cp.Add("I2", DateTime.Now.ToString());
 
             var exportPath = "C:\\Users\\dgrevenos\\source\\repos\\Xporter\\XporterConsole\\Exports\\TestFileName1.xlsx";
 
@@ -118,13 +119,16 @@ namespace XporterConsole
 
             var templFullPath = "C:\\Users\\dgrevenos\\source\\repos\\Xporter\\XporterConsole\\Templates\\templ.xlsx";
 
+            var templ = @"C:\Users\dgrevenos\Desktop\Template.xlsx";
+
 
             //USAGE EXAMPLE1...
 
             Xport.LoadFromFileInfo(filePath)
                  .Clear()
-                 .LoadTempl(new FileStream(templFullPath, FileMode.Open))
+                 .LoadTempl(new FileStream(templ, FileMode.Open))
                  .InsertData(stds, 8, 2)
+                 .WriteToCells(cp)
                  .Save();
 
 
