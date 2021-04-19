@@ -295,7 +295,7 @@ namespace Xporter
         }
 
         /// <summary>
-        /// Write data in specific cells
+        /// Write data in specific cells in all sheets
         /// </summary>
         /// <param name="pack"></param>
         /// <param name="cp">Create a new CellProperties() var cp<br></br>
@@ -304,7 +304,32 @@ namespace Xporter
         /// <returns></returns>
         public static ExcelPackage WriteToCells(this ExcelPackage pack, CellProperties cp)
         {
-            var sheet = LoadSheet(pack);
+            pack.Workbook.Worksheets.ToList().ForEach(f =>
+            {
+                foreach (var item in cp)
+                {
+                    f.Cells[item.Key].Value = item.Value;
+                    f.Cells[item.Key].Style.VerticalAlignment = OfficeOpenXml.Style.ExcelVerticalAlignment.Center;
+                    f.Cells[item.Key].Style.HorizontalAlignment = OfficeOpenXml.Style.ExcelHorizontalAlignment.Left;
+                    f.Cells[item.Key].AutoFitColumns(13);
+                }
+            });
+
+            return pack;
+        }
+
+        /// <summary>
+        /// Write data in specific cells in a sheet
+        /// </summary>
+        /// <param name="pack"></param>
+        /// <param name="sheetName">The sheet name where to write cp data</param>
+        /// <param name="cp">Create a new CellProperties() var cp<br></br>
+        /// cp.Add (cells and values) -repeat .Add<br></br>
+        /// and insert it to this method</param>
+        /// <returns></returns>
+        public static ExcelPackage WriteToCells(this ExcelPackage pack, string sheetName, CellProperties cp)
+        {
+            var sheet = LoadSheet(pack, sheetName);
 
             foreach (var item in cp)
             {
