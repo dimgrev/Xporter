@@ -71,7 +71,7 @@ Then you can use the library extensions methods listed below as you like:
 	* .LoadTempl()		+1 overload	--> to load a template from another xlsx file to the current one
 	* .InsertData()		+2 overloads	--> to insert any kind of data from a model all other source
 	* .WriteToCells()			--> to write something in specified cells
-	* .Clear()		+1 overloads	--> to clear the data of a worksheet or clear all sheets of a file
+	* .Clear()		+1 overload	--> to clear the data of a worksheet or clear all sheets of a file
 
 ## ToDo
 - Add method Insert-inTo-Cells based on the content that cells hold <br>
