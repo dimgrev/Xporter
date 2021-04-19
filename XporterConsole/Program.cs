@@ -123,11 +123,13 @@ namespace XporterConsole
 
 
             //USAGE EXAMPLE1...
-
+            var templStream = new FileStream(templ, FileMode.Open);
             Xport.LoadFromFileInfo(filePath)
                  .Clear()
-                 .LoadTempl(new FileStream(templ, FileMode.Open))
+                 .LoadTempl(templStream)
                  .InsertData(stds, 8, 2)
+                 .LoadTempl("report2", templStream)
+                 .InsertData("report2", stds, 8, 2)
                  .WriteToCells(cp)
                  .Save();
 
