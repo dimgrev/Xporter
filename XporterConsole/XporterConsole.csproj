@@ -10,4 +10,8 @@
     <PackageReference Include="Xporter" Version="0.1.8-alpha" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\Xporter.Core\Xporter.Core.csproj" />
+  </ItemGroup>
+
 </Project>

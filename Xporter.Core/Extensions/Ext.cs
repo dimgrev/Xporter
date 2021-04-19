@@ -31,15 +31,11 @@ namespace Xporter
                 package.Workbook.Worksheets.Add(activeSheet.Name, templSheet);
                 package.Workbook.Worksheets.Delete(activeSheet.Name + "D");
 
-                stream.Close();
-
                 return package;
             }
             else
             {
                 package.Workbook.Worksheets.Add(activeSheet.Name, templSheet);
-
-                stream.Close();
 
                 return package;
             }
@@ -56,9 +52,9 @@ namespace Xporter
         {
             var templPackage = new ExcelPackage(stream);
 
-            var templSheet = LoadSheet(templPackage, SheetName);
+            var templSheet = LoadSheet(templPackage);
 
-            var activeSheet = LoadSheet(package);
+            var activeSheet = LoadSheet(package, SheetName);
 
             if (activeSheet != null)
             {
@@ -68,15 +64,11 @@ namespace Xporter
                 package.Workbook.Worksheets.Add(activeSheet.Name, templSheet);
                 package.Workbook.Worksheets.Delete(activeSheet.Name + "D");
 
-                stream.Close();
-
                 return package;
             }
             else
             {
                 package.Workbook.Worksheets.Add(activeSheet.Name, templSheet);
-
-                stream.Close();
 
                 return package;
             }
