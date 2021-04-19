@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
-    <Version>0.1.9-alpha</Version>
+    <Version>0.2.0-alpha</Version>
     <Authors>Dimitris Grevenos</Authors>
     <Company />
     <PackageTags>Xporter, export, spreadsheet, xlsx, excel, exporting</PackageTags>
@@ -15,8 +15,8 @@
     <Copyright>2021</Copyright>
     <RepositoryUrl>https://github.com/dimgrev/Xporter</RepositoryUrl>
     <PackageId>Xporter</PackageId>
-    <PackageReleaseNotes>Updated (NEW) prerelease version 0.1.9
--New added summary to the nuget!!
+    <PackageReleaseNotes>Updated (NEW) prerelease version 0.2.0
+-New added LoadTempl(with sheet name) +1 overload method
 </PackageReleaseNotes>
   </PropertyGroup>
 
@@ -35,10 +35,6 @@
 
   <ItemGroup>
     <PackageReference Include="EPPlus" Version="5.6.1" />
-    <PackageReference Include="NuGet.CommandLine" Version="5.8.1">
-      <PrivateAssets>all</PrivateAssets>
-      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-    </PackageReference>
   </ItemGroup>
 
   <ItemGroup>

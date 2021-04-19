@@ -33,7 +33,7 @@ and on that class call one of three methods:
 
 Then you can use the library extensions methods listed below as you like:
 
-	* .LoadTempl()						--> to load a template from another xlsx file to the current one
-	* .InsertData()		+3 overloads	--> to insert any kind of data from a model or other source
+	* .LoadTempl()		+1 overload		--> to load a template from another xlsx file to the current one
+	* .InsertData()		+2 overloads	--> to insert any kind of data from a model or other source
 	* .WriteToCells()					--> to write something in specified cells
-	* .Clear()			+2 overloads	--> to clear the data of a worksheet or clear all sheets of a file
+	* .Clear()			+1 overloads	--> to clear the data of a worksheet or clear all sheets of a file

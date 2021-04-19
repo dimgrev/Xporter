@@ -7,10 +7,7 @@
 
   <ItemGroup>
     <PackageReference Include="EPPlus" Version="5.6.1" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <ProjectReference Include="..\Xporter.Core\Xporter.Core.csproj" />
+    <PackageReference Include="Xporter" Version="0.1.8-alpha" />
   </ItemGroup>
 
 </Project>

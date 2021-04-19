@@ -46,6 +46,43 @@ namespace Xporter
         }
 
         /// <summary>
+        /// Loads an existing template in the current file in the specified sheet
+        /// </summary>
+        /// <param name="package">This xlsx package as extension method</param>
+        /// <param name="SheetName">Specify Sheet Name for templ to be loaded</param>
+        /// <param name="stream">Put the Template file stream</param>
+        /// <returns>ExcelPackage</returns>
+        public static ExcelPackage LoadTempl(this ExcelPackage package, string SheetName, Stream stream)
+        {
+            var templPackage = new ExcelPackage(stream);
+
+            var templSheet = LoadSheet(templPackage, SheetName);
+
+            var activeSheet = LoadSheet(package);
+
+            if (activeSheet != null)
+            {
+                package.Workbook.Worksheets.Copy(activeSheet.Name, activeSheet.Name + "D");
+                package.Workbook.Worksheets.Delete(activeSheet.Name);
+
+                package.Workbook.Worksheets.Add(activeSheet.Name, templSheet);
+                package.Workbook.Worksheets.Delete(activeSheet.Name + "D");
+
+                stream.Close();
+
+                return package;
+            }
+            else
+            {
+                package.Workbook.Worksheets.Add(activeSheet.Name, templSheet);
+
+                stream.Close();
+
+                return package;
+            }
+        }
+
+        /// <summary>
         /// Insert any object type or list of properties to the current package
         /// </summary>
         /// <param name="pack">This xlsx package as extension method</param>

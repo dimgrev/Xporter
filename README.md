@@ -29,9 +29,9 @@ public static void InsertData(List<object> objects)
 
 ## Instalation
 ##### [Using NuGet]
-Search into the NuGet packages the library or run the following command:
+Search into the NuGet (prerelease) packages the library or run the following command:
 
-PM> Install-Package Xporter.Core -Version 0.1.1-alpha
+PM> Install-Package Xporter.Core -Version 0.2.0-alpha
 
 ##### [Manual]
 * Download this repository: <a href="https://github.com/dimgrev/Xporter/archive/main.zip" target="_blank">here</a>
@@ -68,10 +68,10 @@ and on that class call one of three methods:
 
 Then you can use the library extensions methods listed below as you like:
 
-	* .LoadTempl()				--> to load a template from another xlsx file to the current one
+	* .LoadTempl()		+1 overload		--> to load a template from another xlsx file to the current one
 	* .InsertData()		+2 overloads	--> to insert any kind of data from a model all other source
 	* .WriteToCells()			--> to write something in specified cells
-	* .Clear()		+2 overloads	--> to clear the data of a worksheet or clear all sheets of a file
+	* .Clear()		+1 overloads	--> to clear the data of a worksheet or clear all sheets of a file
 
 ## ToDo
 - Add method Insert-inTo-Cells based on the content that cells hold <br>
