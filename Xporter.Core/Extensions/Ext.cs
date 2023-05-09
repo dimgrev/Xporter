@@ -436,7 +436,10 @@ namespace Xporter
                      .AutoFitColumns(14);
 
                 sheet.Cells[ExcelCellAddress.GetColumnLetter(i + startingCol) + row.ToString()]
-                     .Style.Fill.SetBackground(Color.FromArgb(13684430), OfficeOpenXml.Style.ExcelFillStyle.Solid);
+                     .Style.Fill.PatternType = OfficeOpenXml.Style.ExcelFillStyle.Solid;
+
+                sheet.Cells[ExcelCellAddress.GetColumnLetter(i + startingCol) + row.ToString()]
+                     .Style.Fill.BackgroundColor.SetColor(Color.FromArgb(13684430));
 
                 sheet.Cells[ExcelCellAddress.GetColumnLetter(i + startingCol) + row.ToString()]
                      .Style.VerticalAlignment = OfficeOpenXml.Style.ExcelVerticalAlignment.Center;
@@ -497,8 +500,8 @@ namespace Xporter
                             //sheet.Column(i + startingCol)
                             //     .Width = 13;
 
-                            //sheet.Cells[ExcelCellAddress.GetColumnLetter(i + startingCol) + rowb.ToString()]
-                            //     .AutoFitColumns(13);
+                            sheet.Cells[ExcelCellAddress.GetColumnLetter(i + startingCol) + rowb.ToString()]
+                                 .AutoFitColumns();
 
                             rowb++;
                             rowFlag = rowFlag < rowb ? rowb : rowFlag;

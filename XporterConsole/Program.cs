@@ -11,7 +11,15 @@ namespace XporterConsole
         {
             Console.WriteLine("Hello Xporter World!");
 
+            string localPath = @"C:\Users\dimgr\source\repos\Xporter\XporterConsole\";
 
+            // Check if the directory of the file path exists
+            string directoryPath = Path.GetDirectoryName(localPath);
+            if (!Directory.Exists(directoryPath + "Exports"))
+            {
+                // Create the directory if it doesn't exist
+                Directory.CreateDirectory(directoryPath + "Exports");
+            }
 
             var stds = new List<object>();
 
@@ -111,15 +119,15 @@ namespace XporterConsole
             cp.Add("E4", "Images");
             cp.Add("I2", DateTime.Now.ToString());
 
-            var exportPath = "C:\\Users\\dgrevenos\\source\\repos\\Xporter\\XporterConsole\\Exports\\TestFileName1.xlsx";
+            var exportPath = localPath + "Exports\\TestFileName1.xlsx";
 
-            var exportPath2 = "C:\\Users\\dgrevenos\\source\\repos\\Xporter\\XporterConsole\\Exports\\TestFileName2.xlsx";
+            var exportPath2 = localPath + "Exports\\TestFileName2.xlsx";
 
-            var filePath = "C:\\Users\\dgrevenos\\source\\repos\\Xporter\\XporterConsole\\Exports\\Test.xlsx";
+            var filePath = localPath + "Exports\\Test.xlsx";
 
-            var templFullPath = "C:\\Users\\dgrevenos\\source\\repos\\Xporter\\XporterConsole\\Templates\\templ.xlsx";
+            var templFullPath = localPath + "Templates\\templ.xlsx";
 
-            var templ = @"C:\Users\dgrevenos\Desktop\Template.xlsx";
+            var templ = @"C:\Users\dimgr\Desktop\Template.xlsx";
 
 
             //USAGE EXAMPLE1...
@@ -147,7 +155,7 @@ namespace XporterConsole
 
             //USAGE EXAMPLE3...
 
-            var exportPath3 = "C:\\Users\\dgrevenos\\source\\repos\\Xporter\\XporterConsole\\Exports\\TestFileName3.xlsx";
+            var exportPath3 = localPath + "Exports\\TestFileName3.xlsx";
 
             var fileStream2 = new FileStream(exportPath2, FileMode.OpenOrCreate);
             Xport.LoadFromStream(fileStream2, "TestSheetName")
@@ -163,7 +171,7 @@ namespace XporterConsole
                 .SaveAs( new FileInfo(exportPath3));
 
             //USAGE EXAMPLE4...
-            var exportPath4 = "C:\\Users\\dgrevenos\\source\\repos\\Xporter\\XporterConsole\\Exports\\";
+            var exportPath4 = localPath + "Exports\\";
 
             Xport.CreateNewPackage().InsertData(stds, 8, 2).SaveAs(new FileInfo(exportPath4 + "New Microsoft Excel Worksheet.xlsx"));
 

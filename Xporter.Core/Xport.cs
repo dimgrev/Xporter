@@ -16,8 +16,6 @@ namespace Xporter
         /// <returns>ExcelPackage</returns>
         public static ExcelPackage LoadFromFileInfo(string path)
         {
-            ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
-
             var package = new ExcelPackage(new FileInfo(path));
 
             return package;
@@ -32,8 +30,6 @@ namespace Xporter
         /// <returns>ExcelPackage</returns>
         public static ExcelPackage LoadFromStream(FileStream fileStream, string sheetName)
         {
-            ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
-
             try
             {
                 var package = new ExcelPackage(fileStream);
@@ -56,8 +52,6 @@ namespace Xporter
         /// <returns></returns>
         public static ExcelPackage CreateNewPackage()
         {
-            ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
-
             return new ExcelPackage();
         }
     }
