@@ -105,7 +105,7 @@ Then you can use the library extensions methods listed below as you like:
 	```
 
 It's that simple! Awesome, right? ♥
-===================================
+-----------------------------------
 
 ## ToDo
 - Maybe the ability to modify xlsx file's style
