@@ -1,4 +1,4 @@
-# Xporter
+﻿# Xporter
 ![CI](https://raw.githubusercontent.com/dimgrev/Xporter/refs/heads/main/Xporter.Core/XporterIcon164.png) 
 
 "Xporter" allows users to export Spreadsheet files easily from either any object type or list of properties as a source, using also if they want pre-existing .xlsx files as Templates.
@@ -9,6 +9,8 @@
 [Installation](#Instalation)
 
 [How to use](#Usage)
+
+[Simple Example](#Simple-Example)
 
 [ToDo](#ToDo)
 
@@ -63,7 +65,7 @@ In your `Plugin` directory type:
 UtilityXporter
 ```
 
-## Usage
+## How to use
 To use this library, add a using statement for Xporter {using Xporter;}
 
 Now you can call the base static class named "Xport."
@@ -93,16 +95,18 @@ Then you can use the library extensions methods listed below as you like:
 			cellProps.Add("E4", "Images");
 			cellProps.Add("I2", DateTime.Now.ToString("yyyy-MM-dd"));
 
-		Xport.LoadFromFileInfo(new FileInfo("C:\\Users\\YourName\\Desktop\\MyFile.xlsx"))
+		Xport.LoadFromFileInfo(new FileInfo("C:\\Users\\{YourPcName}\\Desktop\\MyFile.xlsx"))
 			.Clear()
-			.LoadTempl(new FileInfo("C:\\Users\\YourName\\Desktop\\TemplateFile.xlsx"))
+			.LoadTempl(new FileInfo("C:\\Users\\{YourPcName}\\Desktop\\TemplateFile.xlsx"))
 			.InsertData(yourListOfAnyType)
 			.WriteToCells(cellProps)
 			.InsertToCells("NAME", "John")    //Replace all cells containing "NAME" with "John"
 			.Save();
 	```
 
-It's that simple! Awesome, right?
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+It's that simple! Awesome, right? ♥︎
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
 ## ToDo
 - Maybe the ability to modify xlsx file's style
