@@ -2,6 +2,7 @@
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
+	<VersionPrefix>1.0.1</VersionPrefix>
     <Version>$(VersionPrefix)</Version>
     <Authors>Dimitris Grevenos</Authors>
     <Company />
@@ -15,7 +16,7 @@
     <Copyright>@2026, dimgrev</Copyright>
     <RepositoryUrl>https://github.com/dimgrev/Xporter</RepositoryUrl>
     <PackageId>Xporter</PackageId>
-    <PackageReleaseNotes>Version 1.0.0 (stable)
+    <PackageReleaseNotes>Version $(VersionPrefix) (stable)
 - Improved handling of objects of the same type
 - Added InsertToCells() method
 - Removed AutoFitColumns to prevent unintended changes to templates
