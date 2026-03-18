@@ -177,11 +177,9 @@ namespace Xporter
                 }
                 else
                 {
-                    InsertDataObjs(pack, objs, startingRow, startingCol);
+                    InsertDataObjs(pack, SheetName, objs, startingRow, startingCol);
                 }
             }
-
-            sheet.Cells.AutoFitColumns();
             return pack;
         }
 
@@ -283,7 +281,6 @@ namespace Xporter
 
                                 cell.Style.HorizontalAlignment = OfficeOpenXml.Style.ExcelHorizontalAlignment.Left;
                                 cell.Style.VerticalAlignment = OfficeOpenXml.Style.ExcelVerticalAlignment.Center;
-                                cell.AutoFitColumns();
 
                                 rowFlag = rowFlag < row ? row : rowFlag;
                                 row++;
@@ -325,7 +322,6 @@ namespace Xporter
 
                         cell.Style.HorizontalAlignment = OfficeOpenXml.Style.ExcelHorizontalAlignment.Left;
                         cell.Style.VerticalAlignment = OfficeOpenXml.Style.ExcelVerticalAlignment.Center;
-                        cell.AutoFitColumns();
 
                         rowFlag = rowFlag < row ? row : rowFlag;
                         row++;
@@ -445,7 +441,49 @@ namespace Xporter
                     f.Cells[item.Key].Value = item.Value;
                     f.Cells[item.Key].Style.VerticalAlignment = OfficeOpenXml.Style.ExcelVerticalAlignment.Center;
                     f.Cells[item.Key].Style.HorizontalAlignment = OfficeOpenXml.Style.ExcelHorizontalAlignment.Left;
-                    f.Cells[item.Key].AutoFitColumns(13);
+                }
+            });
+            return pack;
+        }
+
+        /// <summary>
+        /// Inserts the specified value into cells within the Excel package that match the given cell value.
+        /// </summary>
+        /// <param name="pack">The ExcelPackage instance containing the worksheet to modify. Cannot be null.</param>
+        /// <param name="cellValue">The value to search for in the cells. Cells matching this value will be updated.</param>
+        /// <param name="valueToInsert">The value to insert into the matching cells.</param>
+        /// <returns>The ExcelPackage instance with the updated cells.</returns>
+        public static ExcelPackage InsertToCells(this ExcelPackage pack, string cellValue, string valueToInsert)
+        {
+            return InsertToCells(pack, null, cellValue, valueToInsert);
+        }
+
+        /// <summary>
+        /// Replaces the value of all cells matching a specified value in one or more worksheets with a new value and
+        /// updates their alignment and column width.
+        /// </summary>
+        /// <remarks>For each cell matching the specified value, the method sets the cell's value to the
+        /// provided value, aligns the content vertically to center and horizontally to left, and adjusts the column
+        /// width. If multiple worksheets are processed, all matching cells across those worksheets are
+        /// updated.</remarks>
+        /// <param name="pack">The ExcelPackage instance containing the workbook and worksheets to modify.</param>
+        /// <param name="sheetName">The name of the worksheet to update. If null, all worksheets in the workbook are processed.</param>
+        /// <param name="cellValue">The value to search for in cells. Only cells with this exact value are updated.</param>
+        /// <param name="valueToInsert">The new value to insert into matching cells.</param>
+        /// <returns>The ExcelPackage instance with updated cell values and formatting.</returns>
+        public static ExcelPackage InsertToCells(this ExcelPackage pack, string sheetName, string cellValue, string valueToInsert)
+        {
+            var sheetList = pack.Workbook.Worksheets.ToList();
+            if (sheetName != null)
+                sheetList = new List<ExcelWorksheet>() { LoadSheet(pack, sheetName) };
+            sheetList.ForEach(f =>
+            {
+                var cells = f.Cells.Where(c => c.Value != null && c.Value.ToString() == cellValue);
+                foreach (var cell in cells)
+                {
+                    cell.Value = valueToInsert;
+                    cell.Style.VerticalAlignment = OfficeOpenXml.Style.ExcelVerticalAlignment.Center;
+                    cell.Style.HorizontalAlignment = OfficeOpenXml.Style.ExcelHorizontalAlignment.Left;
                 }
             });
             return pack;
@@ -509,7 +547,20 @@ namespace Xporter
             {
                 if (SheetName == null)
                     SheetName = "Sheet1";
-                activeSheet = pack.Workbook.Worksheets.Add(SheetName);
+                try
+                {
+                    activeSheet = pack.Workbook.Worksheets.Add(SheetName);
+                }
+                catch (System.InvalidOperationException ex)
+                {
+                    if (ex.Message.StartsWith("A worksheet with this name already exists in the workbook"))
+                    {
+                        pack.Workbook.Worksheets.Delete(SheetName);
+                        activeSheet = pack.Workbook.Worksheets.Add(SheetName);
+                    }
+                    else
+                        throw;
+                }
             }
 
             return activeSheet;
@@ -540,7 +591,6 @@ namespace Xporter
                 style.HorizontalAlignment = OfficeOpenXml.Style.ExcelHorizontalAlignment.Left;
                 style.Font.Bold = true;
                 style.Font.Size = 12;
-                cell.AutoFitColumns(14);
                 style.Fill.PatternType = OfficeOpenXml.Style.ExcelFillStyle.Solid;
                 style.Fill.BackgroundColor.SetColor(bgColor);
                 style.VerticalAlignment = OfficeOpenXml.Style.ExcelVerticalAlignment.Center;

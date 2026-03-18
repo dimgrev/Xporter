@@ -18,7 +18,7 @@ namespace XporterConsole
             if (!Directory.Exists(directoryPath + "Exports"))
             {
                 // Create the directory if it doesn't exist
-                Directory.CreateDirectory(directoryPath + "Exports");
+                Directory.CreateDirectory(directoryPath + "\\Exports");
             }
 
             var stds = new List<object>();
@@ -127,19 +127,18 @@ namespace XporterConsole
 
             var templFullPath = localPath + "Templates\\templ.xlsx";
 
-            var templ = @"C:\Users\dimgr\Desktop\Template.xlsx";
-
 
             //USAGE EXAMPLE1...
-            var templStream = new FileStream(templ, FileMode.Open);
+            var templStream = new FileStream(templFullPath, FileMode.Open);
             Xport.LoadFromFileInfo(filePath)
-                 .Clear()
-                 .LoadTempl(templStream)
-                 .InsertData(stds, 8, 2)
-                 .LoadTempl("report2", templStream)
-                 .InsertData("report2", stds, 8, 2)
-                 .WriteToCells(cp)
-                 .Save();
+                .Clear()
+                .LoadTempl(templStream)
+                .InsertData("Sheet1", stds, 8, 2)
+                .LoadTempl("Report2", templStream)
+                .InsertData("Report2", stds, 8, 2)
+                .InsertToCells("Test", "SUCCESS!!!")
+                .WriteToCells(cp)
+                .Save();
 
 
             //USAGE EXAMPLE2...
@@ -159,7 +158,7 @@ namespace XporterConsole
 
             var fileStream2 = new FileStream(exportPath2, FileMode.OpenOrCreate);
             Xport.LoadFromStream(fileStream2, "TestSheetName")
-                .InsertData(obj2).Save();
+                .InsertData(obj2).SaveAs(new FileInfo(exportPath3));
 
             fileStream2.Close();
 
