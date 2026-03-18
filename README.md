@@ -1,5 +1,5 @@
 # Xporter
-![CI](https://raw.githubusercontent.com/dimgrev/Xporter/refs/heads/main/Xporter.Core/XporterIcon.png) 
+![CI](https://raw.githubusercontent.com/dimgrev/Xporter/refs/heads/main/Xporter.Core/XporterIcon164.png) 
 
 "Xporter" allows users to export Spreadsheet files easily from either any object type or list of properties as a source, using pre-existing .xlsx files as Templates.
 
