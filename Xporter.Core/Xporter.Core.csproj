@@ -12,11 +12,11 @@
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <Product>Xporter Library</Product>
-    <Copyright>2026</Copyright>
+    <Copyright>@2026, dimgrev</Copyright>
     <RepositoryUrl>https://github.com/dimgrev/Xporter</RepositoryUrl>
     <PackageId>$(AssemblyName)</PackageId>
     <PackageReleaseNotes>Updated (NEW) version 1.0.0
-- Added the ability to correspond with the same type of objects
+- Added the ability to handle more easily same type of objects
 - Optimised code</PackageReleaseNotes>
     <Title>Xporter</Title>
     <PackageReadmeFile>README.md</PackageReadmeFile>
