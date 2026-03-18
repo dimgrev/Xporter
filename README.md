@@ -88,18 +88,18 @@ Then you can use the library extensions methods listed below as you like:
 		using Xporter;
 
 		var cellProps = new CellProperties();
-            cellProps.Add("E2", "Stats");
-            cellProps.Add("E3", "TypeOfProduct");
-            cellProps.Add("E4", "Images");
-            cellProps.Add("I2", DateTime.Now.ToString("yyyy-MM-dd"));
+				cellProps.Add("E2", "Stats");
+				cellProps.Add("E3", "TypeOfProduct");
+				cellProps.Add("E4", "Images");
+				cellProps.Add("I2", DateTime.Now.ToString("yyyy-MM-dd"));
 
 		Xport.LoadFromFileInfo(new FileInfo("C:\\Users\\YourName\\Desktop\\MyFile.xlsx"))
-			.Clear()
-			.LoadTempl(new FileInfo("C:\\Users\\YourName\\Desktop\\TemplateFile.xlsx"))
-			.InsertData(yourListOfAnyType)
-			.WriteToCells(cellProps)
-            .InsertToCells("NAME", "John")    //Replace all cells containing "NAME" with "John"
-			.Save();
+		.Clear()
+		.LoadTempl(new FileInfo("C:\\Users\\YourName\\Desktop\\TemplateFile.xlsx"))
+		.InsertData(yourListOfAnyType)
+		.WriteToCells(cellProps)
+		.InsertToCells("NAME", "John")    //Replace all cells containing "NAME" with "John"
+		.Save();
 	```
 
 It's that simple! Awesome, right?
