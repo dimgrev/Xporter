@@ -2,24 +2,24 @@
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
-    <Version>0.2.2-alpha</Version>
+    <Version>$(VersionPrefix)</Version>
     <Authors>Dimitris Grevenos</Authors>
     <Company />
-    <PackageTags>Xporter, export, spreadsheet, xlsx, excel, exporting</PackageTags>
+    <PackageTags>Xporter, export, spreadsheet, xlsx, excel, exporting, easy-export</PackageTags>
     <Description>"Xporter" allows users to export Spreadsheet files easily from either any object type or list of properties as a source, using pre-existing .xlsx files as Templates.</Description>
-    <PackageProjectUrl></PackageProjectUrl>
-    <PackageIcon>XporterIcon.png</PackageIcon>
+    <PackageProjectUrl>https://github.com/dimgrev/Xporter</PackageProjectUrl>
+    <PackageIcon>XporterIcon2.png</PackageIcon>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <Product>Xporter Library</Product>
-    <Copyright>2021</Copyright>
+    <Copyright>2026</Copyright>
     <RepositoryUrl>https://github.com/dimgrev/Xporter</RepositoryUrl>
-    <PackageId>Xporter</PackageId>
-    <PackageReleaseNotes>Updated (NEW) prerelease version 0.2.2
--New added LoadTempl(with sheet name) +1 overload method
--New added WriteToCells now writes in all sheets or 
-WriteToCells(with sheet name) overload method write to the specified sheet
-</PackageReleaseNotes>
+    <PackageId>$(AssemblyName)</PackageId>
+    <PackageReleaseNotes>Updated (NEW) version 1.0.0
+- Added the ability to correspond with the same type of objects
+- Optimised code</PackageReleaseNotes>
+    <Title>Xporter</Title>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
@@ -40,9 +40,20 @@ WriteToCells(with sheet name) overload method write to the specified sheet
   </ItemGroup>
 
   <ItemGroup>
+    <None Include="..\README.md">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </None>
     <None Include="XporterIcon.png">
       <Pack>True</Pack>
       <PackagePath></PackagePath>
+    </None>
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="XporterIcon2.png">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
     </None>
   </ItemGroup>
 </Project>

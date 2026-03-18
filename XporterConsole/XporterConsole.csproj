@@ -7,7 +7,7 @@
 
   <ItemGroup>
     <PackageReference Include="EPPlus" Version="4.5.3.3" />
-    <PackageReference Include="Xporter" Version="0.1.8-alpha" />
+    <PackageReference Include="Xporter" Version="1.0.0" />
   </ItemGroup>
 
   <ItemGroup>
