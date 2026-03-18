@@ -98,7 +98,7 @@ Then you can use the library extensions methods listed below as you like:
 		Xport.LoadFromFileInfo(new FileInfo("C:\\Users\\{YourPcName}\\Desktop\\MyFile.xlsx"))
 			.Clear()
 			.LoadTempl(new FileInfo("C:\\Users\\{YourPcName}\\Desktop\\TemplateFile.xlsx"))
-			.InsertData(yourListOfAnyType)
+			.InsertData(yourListOfAnyType, startingRow, startingCol)
 			.WriteToCells(cellProps)
 			.InsertToCells("NAME", "John")    //Replace all cells containing "NAME" with "John"
 			.Save();
