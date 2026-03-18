@@ -15,9 +15,11 @@
     <Copyright>@2026, dimgrev</Copyright>
     <RepositoryUrl>https://github.com/dimgrev/Xporter</RepositoryUrl>
     <PackageId>Xporter</PackageId>
-    <PackageReleaseNotes>Updated (NEW) version 1.0.0
-- Added the ability to handle more easily same type of objects
-- Optimised code</PackageReleaseNotes>
+    <PackageReleaseNotes>Version 1.0.0 (stable)
+- Improved handling of objects of the same type
+- Added InsertToCells() method
+- Removed AutoFitColumns to prevent unintended changes to templates
+- Optimized performance and internal code structure</PackageReleaseNotes>
     <Title>Xporter</Title>
     <PackageReadmeFile>README.md</PackageReadmeFile>
   </PropertyGroup>
